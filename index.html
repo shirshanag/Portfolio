@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shirsha Nag (Quantum Wolf)</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --bg-color: #1e1e1e;
+      --fg-color: #d4d4d4;
+      --accent-color: #58a6ff;
+      --header-bg: #333333;
+      --border-color: #3c3c3c;
+      --tag-bg: #007acc;
+      --sidebar-bg: #252526;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Consolas, 'Courier New', monospace;
+      background-color: var(--bg-color);
+      color: var(--fg-color);
+      display: flex;
+    }
+
+    .sidebar {
+      width: 50px;
+      background-color: var(--sidebar-bg);
+      padding-top: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.2rem;
+      border-right: 1px solid var(--border-color);
+      height: 100vh;
+    }
+
+    .sidebar i {
+      color: #cccccc;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    header {
+      background-color: var(--header-bg);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-color);
+      width: 100%;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      color: var(--accent-color);
+    }
+
+    nav a {
+      color: var(--fg-color);
+      margin-left: 1rem;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: var(--accent-color);
+    }
+
+    .container {
+      max-width: 960px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .profile-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .profile-section img {
+      width: 100px;
+      border-radius: 50%;
+    }
+
+    .repo-box {
+      background-color: var(--sidebar-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .repo-box h2 {
+      color: #58a6ff;
+      font-size: 1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .repo-box .tag {
+      background-color: #0e8cc7;
+      color: white;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.7rem;
+      border-radius: 20px;
+      margin-left: 0.5rem;
+    }
+
+    .repo-box p {
+      font-size: 0.9rem;
+      margin-top: 0.3rem;
+    }
+
+    .repo-box .meta {
+      color: #8b949e;
+      font-size: 0.85rem;
+      margin-top: 0.4rem;
+    }
+
+    footer {
+      border-top: 1px solid var(--border-color);
+      padding: 1rem;
+      text-align: center;
+      color: #999999;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <i class="fas fa-file"></i>
+    <i class="fas fa-search"></i>
+    <i class="fas fa-code-branch"></i>
+    <i class="fas fa-play"></i>
+    <i class="fas fa-bug"></i>
+    <i class="fas fa-box"></i>
+    <i class="fas fa-globe"></i>
+  </div>
+
+  <div style="flex: 1">
+    <header>
+      <h1><i class="fas fa-code"></i> Shirsha Nag</h1>
+      <nav>
+        <a href="#about">About</a>
+        <a href="#repositories">Repositories</a>
+        <a href="#projects">Projects</a>
+        <a href="#experience">Experience</a>
+        <a href="#education">Education</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <div class="container">
+      <div class="profile-section">
+        <img src="https://avatars.githubusercontent.com/u/00000000?v=4" alt="Profile">
+        <div>
+          <p><strong>@shirshanag</strong></p>
+          <p>Quantum Coder ⚛️ | CP Warrior 👨‍💻 | Member ACM | Iron Man fan 🧠❤️</p>
+        </div>
+      </div>
+
+      <section id="about">
+        <h2>👤 About Me</h2>
+        <p>👨‍💻 B.Tech CSE (IoT & Cyber Security including Blockchain Technology) | Quantum Computing & ML Enthusiast</p>
+        <p>🚀 Passionate about Quantum Circuits & Algorithms, IoT, and ML. Experienced in Quantum Simulation, Data Science, and Competitive Coding.</p>
+        <p>💡 Active on Code Chef | Proficient in Python, C | Always exploring cutting-edge technologies in Quantum Computing and Machine Learning.</p>
+        <p>🔥 Hackathon participant & problem solver, aiming to innovate at the intersection of Quantum Tech, IoT, and ML.</p>
+      </section>
+
+      <section id="repositories">
+        <h2 style="margin: 1rem 0;">📦 Repositories</h2>
+
+        <div class="repo-box">
+          <h2><a href="#" style="color:#58a6ff;text-decoration:none">quantum-energy-comparator</a><span class="tag">Quantum</span></h2>
+          <p>Tool to compare molecular energies using Qiskit and PySCF.</p>
+          <p class="meta"><i class="fas fa-code-branch"></i> Python &nbsp;|&nbsp; <i class="far fa-star"></i> 12</p>
+        </div>
+
+        <div class="repo-box">
+          <h2><a href="https://github.com/shirshanag/Netflix-recommendation-ml-model" style="color:#58a6ff;text-decoration:none">netflix-recommender</a><span class="tag">ML</span></h2>
+          <p>Movie recommendation system built using collaborative filtering.</p>
+          <p class="meta"><i class="fas fa-code-branch"></i> Python &nbsp;|&nbsp; <i class="far fa-star"></i> 18</p>
+        </div>
+
+        <div class="repo-box">
+          <h2><a href="https://github.com/shirshanag/Quantum-Computing" style="color:#58a6ff;text-decoration:none" target="_blank">Quantum-Computing</a><span class="tag">Quantum</span></h2>
+          <p>Repository for various Quantum-Computing Projects.</p>
+          <p class="meta"><i class="fas fa-code-branch"></i> Python &nbsp;|&nbsp; <i class="far fa-star"></i> 9</p>
+        </div>
+      </section>
+
+      <section id="projects">
+        <h2>🛠️ Projects</h2>
+
+        <div class="repo-box">
+          <h2><a href="#" style="color:#58a6ff;text-decoration:none">air-quality-nairobi</a><span class="tag">TimeSeries</span></h2>
+          <p>Time Series Analysis using MongoDB, PyMongo & AR Models.</p>
+          <p class="meta"><i class="fas fa-code-branch"></i> Python &nbsp;|&nbsp; <i class="far fa-star"></i> 10</p>
+        </div>
+
+        <div class="repo-box">
+          <h2><a href="#" style="color:#58a6ff;text-decoration:none">buenos-aires-housing</a><span class="tag">ML</span></h2>
+          <p>ML pipeline, EDA, Visualizations with Pandas.</p>
+          <p class="meta"><i class="fas fa-code-branch"></i> Python &nbsp;|&nbsp; <i class="far fa-star"></i> 8</p>
+        </div>
+
+        <div class="repo-box">
+          <h2><a href="#" style="color:#58a6ff;text-decoration:none">mexico-housing</a><span class="tag">EDA</span></h2>
+          <p>Exploratory analysis using scatter/box plots to identify trends.</p>
+          <p class="meta"><i class="fas fa-code-branch"></i> Python &nbsp;|&nbsp; <i class="far fa-star"></i> 7</p>
+        </div>
+
+        <div class="repo-box">
+          <h2><a href="#" style="color:#58a6ff;text-decoration:none">student-result-analysis</a><span class="tag">Data</span></h2>
+          <p>Python-based data wrangling & visualization.</p>
+          <p class="meta"><i class="fas fa-code-branch"></i> Python &nbsp;|&nbsp; <i class="far fa-star"></i> 6</p>
+        </div>
+      </section>
+
+      <section id="experience">
+        <h2>💼 Experience</h2>
+        <p><strong>Python Developer</strong> – Pinnacle Labs (Jun 2025 - Present, Remote)</p>
+        <p><strong>Chairperson</strong> – ACM-FIT (May 2025 - Present, Kolkata, India)</p>
+        <p><strong>Applied Data Science Lab</strong> – WorldQuant University (Oct 2024 - Present)</p>
+        <p><strong>Intern</strong> – Kodacy (Aug 2024 - Sep 2024, India)</p>
+      </section>
+
+      <section id="education">
+        <h2>🎓 Education</h2>
+        <p><strong>Future Institute of Technology</strong> – B.Tech in CSE (IoT, Cyber Security & Blockchain)| Aug 2023 - Jun 2027 | Activities & Societies: Coding, Robotics, Hackathon, ACM, NSS</p>
+        <p><strong>WorldQuant University</strong> – Applied Data Science Lab</p>
+      </section>
+
+      <section id="contact">
+        <h2>📫 Contact</h2>
+        <p>Email: shirshanag@example.com</p>
+        <p>GitHub: <a href="https://github.com/shirshanag" style="color: var(--accent-color);" target="_blank">github.com/shirshanag</a></p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/shirsha-nag-b4aa87219/" style="color: var(--accent-color);" target="_blank">linkedin.com/in/shirsha-nag</a></p>
+      </section>
+    </div>
+
+    <footer>
+      &copy; 2025 Shirsha Nag | Inspired by VS Code | Built with HTML & CSS
+    </footer>
+  </div>
+</body>
+</html>
+
