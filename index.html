@@ -2,1355 +2,371 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shirsha Nag — Quantum ML Researcher</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;900&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shirsha Nag — AI/ML Builder · Full-Stack Products</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --black: #0a0a0a;
-    --white: #f5f5f0;
-    --gray: #888;
-    --light-gray: #d0d0d0;
-    --accent: #e8e8e0;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Space Mono', monospace;
-    overflow-x: hidden;
-    cursor: none;
-  }
-
-  /* Custom cursor */
-  #cursor {
-    width: 12px; height: 12px;
-    background: var(--white);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s ease;
-    mix-blend-mode: difference;
-  }
-  #cursor-ring {
-    width: 36px; height: 36px;
-    border: 1px solid rgba(245,245,240,0.5);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.15s ease, width 0.2s, height 0.2s;
-    mix-blend-mode: difference;
-  }
-  body:hover #cursor-ring.expand { width: 60px; height: 60px; }
-
-  /* Noise overlay */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-    background-size: 200px;
-    pointer-events: none;
-    z-index: 9000;
-    opacity: 0.4;
-  }
-
-  /* Nav */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 24px 48px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    backdrop-filter: blur(12px);
-    background: rgba(10,10,10,0.7);
-  }
-  .nav-logo {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.2rem;
-    letter-spacing: 0.04em;
-    color: var(--white);
-    text-decoration: none;
-  }
-  .nav-links { display: flex; gap: 32px; list-style: none; }
-  .nav-links a {
-    font-size: 0.7rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gray);
-    text-decoration: none;
-    transition: color 0.3s;
-  }
-  .nav-links a:hover { color: var(--white); }
-
-  /* Hero */
-  #hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-left {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 120px 48px 80px;
-    position: relative;
-    z-index: 2;
-  }
-  .hero-tag {
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gray);
-    margin-bottom: 24px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.8s forwards 0.3s;
-  }
-  .hero-name {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(4rem, 7vw, 8rem);
-    font-weight: 900;
-    line-height: 0.9;
-    letter-spacing: -0.02em;
-    opacity: 0;
-    transform: translateY(40px);
-    animation: fadeUp 1s forwards 0.5s;
-  }
-  .hero-name em {
-    font-style: italic;
-    color: var(--gray);
-  }
-  .hero-desc {
-    margin-top: 32px;
-    font-size: 0.75rem;
-    line-height: 1.9;
-    color: var(--light-gray);
-    max-width: 380px;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeUp 0.8s forwards 0.8s;
-  }
-  .hero-cta {
-    margin-top: 48px;
-    display: flex; gap: 16px; flex-wrap: wrap;
-    opacity: 0;
-    animation: fadeUp 0.8s forwards 1s;
-  }
-  .btn {
-    font-family: 'Space Mono', monospace;
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 14px 28px;
-    text-decoration: none;
-    border: 1px solid;
-    transition: all 0.3s;
-    display: inline-block;
-  }
-  .btn-primary { background: var(--white); color: var(--black); border-color: var(--white); }
-  .btn-primary:hover { background: transparent; color: var(--white); }
-  .btn-secondary { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.3); }
-  .btn-secondary:hover { border-color: var(--white); }
-
-  .hero-right {
-    position: relative;
-    overflow: hidden;
-  }
-  .hero-visual {
-    position: absolute; inset: 0;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .quantum-grid {
-    width: 100%; height: 100%;
-    position: relative;
-    opacity: 0;
-    animation: fadeIn 1.5s forwards 0.6s;
-  }
-  .quantum-grid svg { width: 100%; height: 100%; }
-
-  .hero-scroll {
-    position: absolute; bottom: 40px; left: 48px;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gray);
-    display: flex; align-items: center; gap: 12px;
-    opacity: 0;
-    animation: fadeUp 0.8s forwards 1.2s;
-  }
-  .hero-scroll::before {
-    content: '';
-    width: 40px; height: 1px;
-    background: var(--gray);
-  }
-
-  /* Sections */
-  section { padding: 120px 48px; }
-
-  .section-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gray);
-    margin-bottom: 60px;
-    display: flex; align-items: center; gap: 16px;
-  }
-  .section-label::before {
-    content: '';
-    width: 32px; height: 1px;
-    background: var(--gray);
-  }
-
-  /* Experience */
-  #experience { max-width: 1200px; margin: 0 auto; }
-  .exp-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    background: rgba(255,255,255,0.06);
-  }
-  .exp-card {
-    background: var(--black);
-    padding: 48px 40px;
-    transition: background 0.3s;
-    position: relative;
-    overflow: hidden;
-  }
-  .exp-card::after {
-    content: '';
-    position: absolute; bottom: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-    transform: scaleX(0);
-    transition: transform 0.5s;
-  }
-  .exp-card:hover { background: rgba(255,255,255,0.03); }
-  .exp-card:hover::after { transform: scaleX(1); }
-  .exp-year {
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    color: var(--gray);
-    margin-bottom: 16px;
-  }
-  .exp-org {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.4rem;
-    margin-bottom: 8px;
-    line-height: 1.2;
-  }
-  .exp-role {
-    font-size: 0.65rem;
-    letter-spacing: 0.1em;
-    color: var(--gray);
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-  .exp-points {
-    list-style: none;
-    font-size: 0.72rem;
-    line-height: 1.8;
-    color: var(--light-gray);
-  }
-  .exp-points li { padding-left: 16px; position: relative; margin-bottom: 6px; }
-  .exp-points li::before {
-    content: '—';
-    position: absolute; left: 0;
-    color: var(--gray);
-  }
-
-  /* Research */
-  #research {
-    background: var(--white);
-    color: var(--black);
-    max-width: 100%;
-    padding: 120px 48px;
-  }
-  #research .section-label { color: rgba(0,0,0,0.4); }
-  #research .section-label::before { background: rgba(0,0,0,0.3); }
-  .research-grid {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-  }
-  .research-card {
-    border-top: 2px solid var(--black);
-    padding-top: 32px;
-  }
-  .research-venue {
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #666;
-    margin-bottom: 16px;
-  }
-  .research-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    font-weight: 900;
-    line-height: 1.2;
-    margin-bottom: 16px;
-    color: var(--black);
-  }
-  .research-desc {
-    font-size: 0.72rem;
-    line-height: 1.9;
-    color: #444;
-  }
-  .research-tag {
-    display: inline-block;
-    margin-top: 20px;
-    font-size: 0.6rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    border: 1px solid var(--black);
-    padding: 6px 14px;
-    color: var(--black);
-  }
-
-  /* Projects */
-  #projects { max-width: 1200px; margin: 0 auto; }
-  .projects-list { display: flex; flex-direction: column; gap: 0; }
-  .project-item {
-    display: grid;
-    grid-template-columns: 80px 1fr auto;
-    align-items: start;
-    gap: 32px;
-    padding: 36px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    transition: all 0.3s;
-    cursor: default;
-  }
-  .project-item:hover { padding-left: 16px; }
-  .project-num {
-    font-size: 0.6rem;
-    color: var(--gray);
-    letter-spacing: 0.1em;
-    padding-top: 4px;
-  }
-  .project-info {}
-  .project-name {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1.3rem;
-    margin-bottom: 8px;
-    transition: color 0.3s;
-  }
-  .project-item:hover .project-name { color: var(--light-gray); }
-  .project-desc {
-    font-size: 0.7rem;
-    line-height: 1.8;
-    color: var(--gray);
-    max-width: 600px;
-  }
-  .project-tech {
-    display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end;
-    max-width: 220px;
-  }
-  .tech-tag {
-    font-size: 0.55rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    border: 1px solid rgba(255,255,255,0.15);
-    padding: 4px 10px;
-    color: var(--gray);
-    white-space: nowrap;
-  }
-
-  /* Skills */
-  #skills {
-    background: #111;
-    padding: 120px 48px;
-  }
-  .skills-inner { max-width: 1200px; margin: 0 auto; }
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 48px;
-  }
-  .skill-group {}
-  .skill-group-title {
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gray);
-    margin-bottom: 24px;
-    padding-bottom: 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-  }
-  .skill-list { display: flex; flex-wrap: wrap; gap: 8px; }
-  .skill-item {
-    font-size: 0.68rem;
-    color: var(--light-gray);
-    padding: 8px 14px;
-    border: 1px solid rgba(255,255,255,0.1);
-    transition: all 0.3s;
-  }
-  .skill-item:hover {
-    background: var(--white);
-    color: var(--black);
-    border-color: var(--white);
-  }
-
-  /* Awards */
-  #awards { max-width: 1200px; margin: 0 auto; }
-  .awards-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2px;
-    background: rgba(255,255,255,0.06);
-  }
-  .award-item {
-    background: var(--black);
-    padding: 40px;
-    display: flex; gap: 24px; align-items: flex-start;
-    transition: background 0.3s;
-  }
-  .award-item:hover { background: rgba(255,255,255,0.03); }
-  .award-icon {
-    font-size: 1.5rem;
-    line-height: 1;
-    flex-shrink: 0;
-    margin-top: 4px;
-  }
-  .award-text {}
-  .award-title {
-    font-family: 'DM Serif Display', serif;
-    font-size: 1rem;
-    margin-bottom: 6px;
-    line-height: 1.3;
-  }
-  .award-sub { font-size: 0.65rem; color: var(--gray); line-height: 1.6; }
-
-  /* Certifications */
-  #certifications { 
-    background: var(--white);
-    color: var(--black);
-    padding: 120px 48px;
-  }
-  #certifications .section-label { color: rgba(0,0,0,0.4); }
-  #certifications .section-label::before { background: rgba(0,0,0,0.3); }
-  .certs-inner { max-width: 1200px; margin: 0 auto; }
-  .certs-list { display: flex; flex-wrap: wrap; gap: 12px; }
-  .cert-item {
-    font-size: 0.7rem;
-    font-family: 'Space Mono', monospace;
-    border: 1px solid var(--black);
-    padding: 14px 20px;
-    color: var(--black);
-    transition: all 0.3s;
-    letter-spacing: 0.02em;
-  }
-  .cert-item:hover {
-    background: var(--black);
-    color: var(--white);
-  }
-
-  /* Contact / Footer */
-  #contact {
-    padding: 120px 48px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .contact-bg-text {
-    position: absolute;
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(6rem, 18vw, 22rem);
-    font-weight: 900;
-    color: rgba(255,255,255,0.03);
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    white-space: nowrap;
-    pointer-events: none;
-    letter-spacing: -0.05em;
-  }
-  .contact-inner { position: relative; z-index: 1; }
-  .contact-label {
-    font-size: 0.6rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    color: var(--gray);
-    margin-bottom: 32px;
-    display: flex; align-items: center; gap: 16px;
-    justify-content: center;
-  }
-  .contact-label::before, .contact-label::after {
-    content: ''; width: 40px; height: 1px; background: var(--gray);
-  }
-  .contact-heading {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.5rem, 5vw, 5rem);
-    font-weight: 900;
-    line-height: 1.1;
-    margin-bottom: 48px;
-  }
-  .contact-links {
-    display: flex; gap: 24px; justify-content: center; flex-wrap: wrap;
-    margin-bottom: 80px;
-  }
-  .contact-link {
-    font-size: 0.65rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gray);
-    text-decoration: none;
-    transition: color 0.3s;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .contact-link:hover { color: var(--white); }
-  .contact-link::before { content: '↗'; }
-  .footer-line {
-    border-top: 1px solid rgba(255,255,255,0.08);
-    padding-top: 40px;
-    font-size: 0.6rem;
-    color: rgba(255,255,255,0.2);
-    letter-spacing: 0.1em;
-  }
-
-  /* Animations */
-  @keyframes fadeUp {
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    to { opacity: 1; }
-  }
-  @keyframes spin {
-    to { transform: rotate(360deg); }
-  }
-  @keyframes dash {
-    to { stroke-dashoffset: 0; }
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 1; }
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
-  }
-
-  .reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 3px; }
-  ::-webkit-scrollbar-track { background: var(--black); }
-  ::-webkit-scrollbar-thumb { background: var(--gray); }
-
-  /* Media queries */
-  @media (max-width: 900px) {
-    nav { padding: 20px 24px; }
-    .nav-links { display: none; }
-    #hero { grid-template-columns: 1fr; }
-    .hero-left { padding: 120px 24px 60px; }
-    .hero-right { display: none; }
-    section { padding: 80px 24px; }
-    .exp-grid { grid-template-columns: 1fr; }
-    .research-grid { grid-template-columns: 1fr; }
-    .skills-grid { grid-template-columns: 1fr 1fr; }
-    .awards-grid { grid-template-columns: 1fr; }
-    .project-item { grid-template-columns: 40px 1fr; }
-    .project-tech { display: none; }
-  }
+:root{--bg:#f7f8fb;--bg2:#fff;--fg:#0f172a;--mut:#5b6478;--line:#e3e7ef;--acc:#2563eb;--acc2:#7c3aed;--red:#ef4444;--yel:#0f172a;--sans:'Inter',system-ui,sans-serif;--mono:'Inter',system-ui,sans-serif;--serif:'Inter',system-ui,sans-serif;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#070b14;--bg2:#0e1524;--fg:#eef2fb;--mut:#93a0b8;--line:#1c2740;--acc:#60a5fa;--acc2:#a78bfa;--yel:#eef2fb}}
+:root[data-theme="dark"]{--bg:#070b14;--fg:#eef2fb}
+html{scroll-behavior:smooth;scroll-padding-top:84px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;display:flex;justify-content:space-between;align-items:center;padding:14px 5vw;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.01em}
+.logo i{font-style:normal;width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:.72rem;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2))}
+.logo small{display:block;font-size:.66rem;font-weight:500;color:var(--mut);line-height:1}
+nav ul{display:flex;gap:26px;list-style:none;font-size:.86rem;font-weight:500;color:var(--mut);align-items:center}
+nav ul a:hover{color:var(--fg)}
+.navcta{background:var(--fg);color:var(--bg)!important;padding:9px 18px;border-radius:99px}
+@media(max-width:860px){nav ul li:not(:last-child){display:none}}
+.wrap{max-width:1160px;margin:0 auto;padding:0 5vw}
+section{padding:96px 0}
+.eyebrow{font-size:.74rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--acc);margin-bottom:14px}
+h2{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:14px}
+.lead{color:var(--mut);max-width:620px;margin-bottom:44px}
+#hero{padding:80px 0 50px;position:relative}
+#hero::before{content:'';position:absolute;inset:0;background:radial-gradient(700px 400px at 80% 0,color-mix(in srgb,var(--acc) 16%,transparent),transparent),radial-gradient(600px 400px at 0 30%,color-mix(in srgb,var(--acc2) 12%,transparent),transparent);pointer-events:none}
+.hgrid{position:relative;display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:center}
+@media(max-width:900px){.hgrid{grid-template-columns:1fr}}
+h1{font-size:clamp(2.5rem,6vw,4.8rem);font-weight:800;letter-spacing:-.045em;line-height:1.02}
+h1 em{font-style:normal;background:linear-gradient(90deg,var(--acc),var(--acc2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{margin-top:24px;max-width:600px;color:var(--mut);font-size:1.1rem}
+.cta{margin-top:32px;display:flex;gap:12px;flex-wrap:wrap}
+.btn{font-size:.9rem;font-weight:600;padding:13px 24px;border-radius:99px;border:1px solid var(--line);background:var(--bg2);transition:.2s}
+.btn.p{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-color:transparent}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px -10px color-mix(in srgb,var(--acc) 60%,transparent)}
+.chips{margin-top:34px;display:flex;gap:10px;flex-wrap:wrap}
+.chips span,.chips a{font-size:.78rem;font-weight:600;padding:7px 14px;border-radius:99px;border:1px solid var(--line);background:var(--bg2);color:var(--mut)}
+.chips a{color:var(--acc);border-color:color-mix(in srgb,var(--acc) 40%,var(--line))}
+.scroll{margin-top:44px;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mut);display:flex;align-items:center;gap:12px}.scroll::after{content:'';width:1px;height:34px;background:var(--mut);animation:sc 1.8s infinite}
+@keyframes sc{50%{transform:scaleY(.3)}}
+.track{background:var(--bg2);border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 30px 60px -30px rgba(15,23,42,.35)}
+.track svg{width:100%;height:auto;display:block}
+figcaption{font-size:.78rem;color:var(--mut);margin-top:10px;text-align:center}
+.marq{border-block:1px solid var(--line);background:var(--bg2);overflow:hidden;padding:14px 0;font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);white-space:nowrap}
+.marq div{display:inline-block;animation:m 50s linear infinite}
+@keyframes m{to{transform:translateX(-50%)}}
+.about{display:grid;grid-template-columns:320px 1fr;gap:48px;align-items:start}
+@media(max-width:900px){.about{grid-template-columns:1fr}}
+.pcard{background:var(--bg2);border:1px solid var(--line);border-radius:22px;padding:30px;text-align:center}
+.mono{width:120px;height:120px;border-radius:50%;margin:0 auto 18px;display:grid;place-items:center;font-size:2.4rem;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2))}
+.pcard b{display:block;font-size:1.25rem}.pcard span{font-size:.85rem;color:var(--mut)}
+.about p{color:var(--mut);margin-bottom:16px}.about p b{color:var(--fg)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:28px}
+.stats div{background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:18px}
+.stats b{display:block;font-size:2rem;font-weight:800;letter-spacing:-.03em;color:var(--acc)}.stats span{font-size:.74rem;color:var(--mut)}
+@media(max-width:700px){.stats{grid-template-columns:1fr 1fr}}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.xp{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:26px;transition:.25s}
+.xp:hover{transform:translateY(-4px);border-color:var(--acc)}
+.xp i{font-style:normal;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-size:.8rem;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--acc),var(--acc2));margin-bottom:16px}
+.xp h3{font-size:1.08rem;font-weight:700;margin-bottom:6px}.xp p{font-size:.9rem;color:var(--mut)}
+.card{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:8px;transition:.25s;position:relative}
+.card:hover{transform:translateY(-4px);border-color:var(--acc);box-shadow:0 20px 40px -24px color-mix(in srgb,var(--acc) 50%,transparent)}
+.card .n{font-size:.7rem;font-weight:700;color:var(--acc);letter-spacing:.08em}
+.card h3{font-size:1.08rem;font-weight:700;letter-spacing:-.01em;line-height:1.3}
+.card p{font-size:.88rem;color:var(--mut);flex:1}
+.card .go{font-size:.78rem;font-weight:600;color:var(--acc)}
+.card.feat{grid-column:span 2;background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 9%,var(--bg2)),color-mix(in srgb,var(--acc2) 9%,var(--bg2)))}
+.card.feat::after{content:'Featured';position:absolute;right:20px;top:20px;font-size:.66rem;font-weight:700;color:#fff;background:var(--acc);padding:3px 10px;border-radius:99px}
+@media(max-width:700px){.card.feat{grid-column:auto}}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}.tags span{font-size:.68rem;font-weight:500;padding:3px 10px;border-radius:99px;background:color-mix(in srgb,var(--fg) 6%,transparent);color:var(--mut)}
+.tl{border-left:2px solid var(--line);margin-left:6px}
+.it{padding:0 0 30px 28px;position:relative}
+.it::before{content:'';position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--acc);box-shadow:0 0 0 4px var(--bg)}
+.it .y{font-size:.74rem;font-weight:600;color:var(--acc)}.it h3{font-size:1.2rem;font-weight:700}.it .r{font-size:.84rem;color:var(--mut);margin-bottom:8px}
+.it li{list-style:none;font-size:.9rem;color:var(--mut);padding-left:16px;position:relative;max-width:760px}.it li::before{content:'›';position:absolute;left:0;color:var(--acc);font-weight:700}
+.sk{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px}
+.sk>div{background:var(--bg2);border:1px solid var(--line);border-radius:18px;padding:22px}
+.sk h4{font-size:.78rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}
+.sk .tags span:hover{background:var(--acc);color:#fff}
+.cta2{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;border-radius:28px;padding:64px 44px;text-align:center}
+.cta2 h2{color:#fff}.cta2 p{opacity:.85;max-width:520px;margin:0 auto 28px}
+.cl{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}.cl a{background:#fff;color:#0f172a;font-weight:600;font-size:.86rem;padding:12px 22px;border-radius:99px}.cl a:hover{transform:translateY(-2px)}
+footer{padding:36px 5vw;border-top:1px solid var(--line);font-size:.78rem;color:var(--mut);text-align:center}
+.sound{position:fixed;right:max(18px,env(safe-area-inset-right,0px));bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:20;font:600 .78rem var(--sans);background:var(--bg2);color:var(--fg);border:1px solid var(--line);border-radius:99px;padding:12px 18px;cursor:pointer;box-shadow:0 10px 30px -10px rgba(0,0,0,.3)}
+.sound.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+.rv{opacity:0;transform:translateY(22px);transition:opacity .8s,transform .8s}.rv.v{opacity:1;transform:none}
 </style>
 </head>
 <body>
-
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
-
-<!-- Nav -->
-<nav>
-  <a href="#hero" class="nav-logo">Shirsha Nag</a>
-  <ul class="nav-links">
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#research">Research</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<!-- Hero -->
-<section id="hero">
-  <div class="hero-left">
-    <p class="hero-tag">B.Tech CSE · IoT &amp; Cybersecurity · 2023–2027</p>
-    <h1 class="hero-name">Shirsha<br><em>Nag.</em></h1>
-    <p class="hero-desc">
-     ML Engineer · Computer Vision · Quantum ML Researcher · IEEE Peer Reviewer · ACM Chapter Founder · Open Source Contributor
-     Building intelligent systems at the intersection of machine learning, computer vision, and quantum computing, from Kolkata, India.
-    </p>
-    <div class="hero-cta">
-      <a href="#projects" class="btn btn-primary">View Projects</a>
-      <a href="https://github.com/shirshanag" target="_blank" class="btn btn-secondary">GitHub ↗</a>
-    </div>
-  </div>
-  <div class="hero-right">
-    <div class="hero-visual">
-      <div class="quantum-grid">
-        <svg viewBox="0 0 600 700" xmlns="http://www.w3.org/2000/svg">
-          <defs>
-            <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="white" stop-opacity="0.15"/>
-              <stop offset="100%" stop-color="white" stop-opacity="0"/>
-            </radialGradient>
-          </defs>
-          <!-- Grid lines -->
-          <g stroke="rgba(255,255,255,0.06)" stroke-width="1">
-            <line x1="0" y1="100" x2="600" y2="100"/>
-            <line x1="0" y1="200" x2="600" y2="200"/>
-            <line x1="0" y1="300" x2="600" y2="300"/>
-            <line x1="0" y1="400" x2="600" y2="400"/>
-            <line x1="0" y1="500" x2="600" y2="500"/>
-            <line x1="0" y1="600" x2="600" y2="600"/>
-            <line x1="100" y1="0" x2="100" y2="700"/>
-            <line x1="200" y1="0" x2="200" y2="700"/>
-            <line x1="300" y1="0" x2="300" y2="700"/>
-            <line x1="400" y1="0" x2="400" y2="700"/>
-            <line x1="500" y1="0" x2="500" y2="700"/>
-          </g>
-
-          <!-- Quantum circuit lines -->
-          <g stroke="rgba(255,255,255,0.25)" stroke-width="1.5" fill="none">
-            <line x1="60" y1="250" x2="540" y2="250" stroke-dasharray="5,8" style="animation: dash 3s linear infinite;"/>
-            <line x1="60" y1="350" x2="540" y2="350" stroke-dasharray="5,8" style="animation: dash 3s linear infinite reverse;"/>
-            <line x1="60" y1="450" x2="540" y2="450" stroke-dasharray="5,8" style="animation: dash 3s linear infinite;"/>
-          </g>
-
-          <!-- Gate boxes -->
-          <g fill="rgba(255,255,255,0.06)" stroke="rgba(255,255,255,0.3)" stroke-width="1.5">
-            <rect x="140" y="230" width="40" height="40" rx="2"/>
-            <rect x="260" y="230" width="40" height="40" rx="2"/>
-            <rect x="380" y="330" width="40" height="40" rx="2"/>
-            <rect x="200" y="430" width="40" height="40" rx="2"/>
-            <rect x="320" y="430" width="40" height="40" rx="2"/>
-            <rect x="440" y="230" width="40" height="40" rx="2"/>
-          </g>
-
-          <!-- Gate labels -->
-          <g fill="rgba(255,255,255,0.7)" font-family="Space Mono" font-size="12" text-anchor="middle">
-            <text x="160" y="255">H</text>
-            <text x="280" y="255">X</text>
-            <text x="400" y="355">Z</text>
-            <text x="220" y="455">Y</text>
-            <text x="340" y="455">H</text>
-            <text x="460" y="255">CNOT</text>
-          </g>
-
-          <!-- Control-target lines -->
-          <g stroke="rgba(255,255,255,0.4)" stroke-width="1.5">
-            <line x1="300" y1="260" x2="300" y2="350"/>
-            <circle cx="300" cy="260" r="4" fill="white" opacity="0.6"/>
-            <circle cx="300" cy="350" r="12" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"/>
-            <line x1="294" y1="350" x2="306" y2="350"/>
-            <line x1="300" y1="344" x2="300" y2="356"/>
-          </g>
-
-          <!-- Bloch sphere -->
-          <g transform="translate(300, 130)">
-            <circle cx="0" cy="0" r="60" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-            <ellipse cx="0" cy="0" rx="60" ry="18" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-            <line x1="0" y1="-60" x2="0" y2="60" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-            <!-- State vector -->
-            <line x1="0" y1="0" x2="35" y2="-45" stroke="white" stroke-width="2" opacity="0.8"/>
-            <circle cx="35" cy="-45" r="4" fill="white" opacity="0.8"/>
-            <text x="8" y="-55" fill="rgba(255,255,255,0.5)" font-size="10" font-family="Space Mono">|ψ⟩</text>
-            <text x="-6" y="-68" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Space Mono">|0⟩</text>
-            <text x="-6" y="78" fill="rgba(255,255,255,0.4)" font-size="10" font-family="Space Mono">|1⟩</text>
-          </g>
-
-          <!-- Probability bars -->
-          <g transform="translate(60, 540)">
-            <text x="0" y="-8" fill="rgba(255,255,255,0.3)" font-size="9" font-family="Space Mono" letter-spacing="2">MEASUREMENT PROB.</text>
-            <rect x="0" y="0" width="100" height="14" fill="rgba(255,255,255,0.5)" rx="2"/>
-            <rect x="0" y="20" width="160" height="14" fill="rgba(255,255,255,0.35)" rx="2"/>
-            <rect x="0" y="40" width="60" height="14" fill="rgba(255,255,255,0.25)" rx="2"/>
-            <rect x="0" y="60" width="200" height="14" fill="rgba(255,255,255,0.45)" rx="2"/>
-            <text x="108" y="12" fill="rgba(255,255,255,0.4)" font-size="9" font-family="Space Mono">|00⟩ 0.71</text>
-            <text x="168" y="32" fill="rgba(255,255,255,0.4)" font-size="9" font-family="Space Mono">|01⟩ 0.15</text>
-            <text x="68" y="52" fill="rgba(255,255,255,0.4)" font-size="9" font-family="Space Mono">|10⟩ 0.09</text>
-            <text x="208" y="72" fill="rgba(255,255,255,0.4)" font-size="9" font-family="Space Mono">|11⟩ 0.05</text>
-          </g>
-
-          <!-- Glow effect -->
-          <rect x="0" y="0" width="600" height="700" fill="url(#glow)"/>
-
-          <!-- Floating dots -->
-          <circle cx="80" cy="80" r="3" fill="white" opacity="0.4" style="animation: pulse 2s infinite; animation-delay: 0s;"/>
-          <circle cx="520" cy="620" r="3" fill="white" opacity="0.4" style="animation: pulse 2s infinite; animation-delay: 0.5s;"/>
-          <circle cx="520" cy="80" r="2" fill="white" opacity="0.3" style="animation: pulse 2.5s infinite; animation-delay: 1s;"/>
-          <circle cx="80" cy="620" r="2" fill="white" opacity="0.3" style="animation: pulse 2.5s infinite; animation-delay: 1.5s;"/>
-        </svg>
-      </div>
-    </div>
-  </div>
-  <div class="hero-scroll">Scroll to explore</div>
-</section>
-
-<!-- Experience -->
-<section id="experience">
-  <div class="section-label reveal">Experience</div>
-  <div class="exp-grid">
-
-    <div class="exp-card reveal">
-      <div class="exp-year">2026</div>
-      <div class="exp-org">IQM Quantum Computing</div>
-      <div class="exp-role">Summer School 2026 · Remote</div>
-      <ul class="exp-points">
-        <li>Gained hands-on experience in quantum algorithms, circuit design, and superconducting quantum hardware</li>
-        <li>Worked with Python and IQM Pulse for quantum circuit implementation and execution</li>
-      </ul>
-    </div>
-
-<a href="https://www.credly.com/badges/484a98fd-52b6-4460-8a22-4afbb2358318/public_url" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-    <div class="exp-card reveal">
-      <div class="exp-year">2026</div>
-      <div class="exp-org">IBM Quantum</div>
-      <div class="exp-role">Qiskit Global Summer School Scholar · Remote</div>
-      <ul class="exp-points">
-        <li>Completed IBM's flagship quantum computing program covering algorithms, QML workflows, and hardware-aware circuit optimization</li>
-        <li>Implemented GHZ state preparation, variational quantum workflows, and quantum feature mapping using Qiskit and IBM Quantum Cloud</li>
-        <li>Reduced circuit depth and adapted circuits to realistic qubit connectivity for improved execution efficiency</li>
-      </ul>
-    </div>
-</a>
-
-    <div class="exp-card reveal">
-      <div class="exp-year">2026</div>
-      <div class="exp-org">1M1B</div>
-      <div class="exp-role">AI Intern</div>
-      <ul class="exp-points">
-        <li>Developed an end-to-end ML system for air quality forecasting — preprocessing, time-series modeling, evaluation, and deployment</li>
-        <li>Built with Python, Prophet, XGBoost, FastAPI, and Streamlit; evaluated using MAE and RMSE</li>
-      </ul>
-    </div>
-
-    <div class="exp-card reveal">
-      <div class="exp-year">2025 – Present</div>
-      <div class="exp-org">QFellows</div>
-      <div class="exp-role">Quantum Computing Fellowship · Member &amp; Contributor</div>
-      <ul class="exp-points">
-        <li>Selected as undergraduate in doctorate-level quantum fellowship — collaborating with PhD researchers globally</li>
-        <li>Proposed GitHub repo infrastructure to streamline collaborative quantum research</li>
-        <li>Contributing to QML research discussions and technical community initiatives</li>
-      </ul>
-    </div>
-
-    <div class="exp-card reveal">
-      <div class="exp-year">2025 – 2026</div>
-      <div class="exp-org">IEEE · GCON'26</div>
-      <div class="exp-role">IIT Guwahati · Peer Reviewer</div>
-      <ul class="exp-points">
-        <li>Invited as peer reviewer for GCON'26 international conference at IIT Guwahati</li>
-        <li>One of very few undergraduates in official IEEE reviewer capacity at an IIT-hosted conference</li>
-        <li>Evaluating research papers for technical rigor and novelty</li>
-      </ul>
-    </div>
-
-    <div class="exp-card reveal">
-      <div class="exp-year">2024 – Present</div>
-      <div class="exp-org">ACM Chapter · FIT</div>
-      <div class="exp-role">Founding President</div>
-      <ul class="exp-points">
-        <li>Founded FIT's first ACM Student Chapter, gaining official recognition from ACM International</li>
-        <li>Recruited core team from scratch; organized workshops, hackathons, and tech talks for 100+ students</li>
-        <li>Represented the college at ACM's global level</li>
-      </ul>
-    </div>
-
-    <div class="exp-card reveal">
-      <div class="exp-year">2025</div>
-      <div class="exp-org">GSSoC '25 &amp; Hacktoberfest</div>
-      <div class="exp-role">Open Source Contributor · Super Contributor</div>
-      <ul class="exp-points">
-        <li>Contributed to IoT/Robotics playground codebase — multi-contributor embedded systems repo</li>
-        <li>Developed ESP32 firmware with ThingSpeak cloud for real-time IoT monitoring</li>
-        <li>Built robotic arm control using flex sensors with gesture-based actuation</li>
-      </ul>
-    </div>
-
-    <div class="exp-card reveal" style="grid-column: span 2;">
-      <div class="exp-year">2024 – Present</div>
-      <div class="exp-org">WorldQuant University</div>
-      <div class="exp-role">Applied Data Science Lab Fellow</div>
-      <ul class="exp-points" style="columns: 2; column-gap: 40px;">
-        <li>Completed 8 end-to-end real-world projects spanning housing prices, earthquake analysis, air quality forecasting, and churn modeling</li>
-        <li>Built ML pipelines using Python, pandas, scikit-learn, and Plotly Dash</li>
-        <li>Worked with REST APIs, MongoDB, and SQL databases across diverse datasets</li>
-      </ul>
-    </div>
-
-  </div>
-</section>
-
-<!-- Research -->
-<section id="research">
-  <div class="section-label reveal">Research &amp; Publications</div>
-  <div class="research-grid">
-
-    <div class="research-card reveal">
-    <div class="research-venue">ACSS 2026 · CUCSE International Conference · Calcutta University</div>
-    <div class="research-title">Hybrid Quantum Clustering for PCOS Phenotype Classification</div>
-    <p class="research-desc">Co-authored and presented a hybrid quantum clustering pipeline for medical phenotype classification, accepted in the Proceedings of the International Conference on Advances in Computer Science and Systems.</p>
-    <span class="research-tag">Co-Author · Presenter</span>
-    </div>
-<a href="https://ieeexplore.ieee.org/document/11648339" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-
-    <div class="research-card reveal">
-      <div class="research-venue">IEEE GCON '26 · IIT Guwahati</div>
-      <div class="research-title">Comparative Analysis of Three Hybrid Quantum ML Models on SONAR Data</div>
-      <p class="research-desc">Co-authored a comparative study benchmarking three hybrid quantum machine learning models on SONAR data, presented at IIT Guwahati.</p>
-      <span class="research-tag">Co-Author · Presenter</span>
-    </div>
-</a>
-
-<a href="https://www.researchgate.net/publication/394727276_Quantum_Computing_and_Molecular_Stability_A_new_Frontier_in_Drug_Discovery" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-    <div class="research-card reveal">
-      <div class="research-venue">NCRTST · JGEC 2025 · National Conference</div>
-      <div class="research-title">Quantum Computing and Molecular Stability in Drug Discovery</div>
-      <p class="research-desc">Co-authored and presented research simulating molecular energy profiles using quantum and classical regression in Qiskit. Demonstrated practical implications of quantum computing in drug discovery by identifying molecular stability with higher precision.</p>
-      <span class="research-tag">Co-Author · Presenter</span>
-    </div>
-</a>
-    <div class="research-card reveal">
-      <div class="research-venue">ICDTBESDVB 2025 · IIT (ISM) Dhanbad · International</div>
-      <div class="research-title">House Price Prediction: Classical vs Quantum ML Approaches</div>
-      <p class="research-desc">Co-authored comparative study of classical and quantum machine learning models for Boston housing price prediction. Presented at an international conference hosted by IIT (ISM) Dhanbad under the Viksit Bharat@2047 initiative.</p>
-      <span class="research-tag">Co-Author · Presenter</span>
-    </div>
-
-  </div>
-</section>
-
-<!-- Projects -->
-<section id="projects">
-  <div class="section-label reveal">Key Projects</div>
-  <div class="projects-list">
-
-    <div class="project-item reveal">
-      <div class="project-num">01</div>
-      <div class="project-info">
-        <div class="project-name">Hybrid Quantum Clustering — Medical Phenotype Classification</div>
-        <div class="project-desc">Hybrid quantum clustering pipeline using Qiskit, quantum kernels, and dimensionality reduction for medical (PCOS) phenotype classification.</div>
-      </div>
-      <div class="project-tech">
-        <span class="tech-tag">Qiskit</span>
-        <span class="tech-tag">QML</span>
-        <span class="tech-tag">scikit-learn</span>
-      </div>
-    </div>
-
-    <div class="project-item reveal">
-      <div class="project-num">02</div>
-      <div class="project-info">
-        <div class="project-name">QML Classifier — Quantum vs Classical SVM</div>
-        <div class="project-desc">Quantum ML classifier using Qiskit achieving 15% higher accuracy than traditional SVM on synthetic datasets. Implemented Grover's algorithm demonstrating quadratic speed-up for unstructured search problems.</div>
-      </div>
-      <div class="project-tech">
-        <span class="tech-tag">Qiskit</span>
-        <span class="tech-tag">Python</span>
-        <span class="tech-tag">QML</span>
-      </div>
-    </div>
-
-
-    <a href="https://github.com/shirshanag/MistralMind" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-    <div class="project-item reveal">
-      <div class="project-num">03</div>
-      <div class="project-info">
-        <div class="project-name">MistralMind — Local AI Assistant</div>
-        <div class="project-desc">Locally hosted AI assistant powered by the Mistral LLM via Ollama, with a FastAPI backend and HTML/CSS frontend. Implemented API endpoints and real-time prompt processing for an end-to-end generative AI application.</div>
-      </div>
-      <div class="project-tech">
-        <span class="tech-tag">FastAPI</span>
-        <span class="tech-tag">Ollama</span>
-        <span class="tech-tag">Mistral</span>
-      </div>
-    </div>
-</a>
-     
-    <a href="https://github.com/shirshanag/Brief-Mind" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-    <div class="project-item reveal">
-      <div class="project-num">04</div>
-      <div class="project-info">
-        <div class="project-name">Brief-Mind — AI Text Summarization Web App</div>
-        <div class="project-desc">AI-powered text summarization app using FastAPI and a locally hosted Mistral LLM through Ollama. End-to-end inference pipeline connecting the web interface with local LLM inference — no external cloud APIs.</div>
-      </div>
-      <div class="project-tech">
-        <span class="tech-tag">FastAPI</span>
-        <span class="tech-tag">Ollama</span>
-        <span class="tech-tag">JavaScript</span>
-      </div>
-    </div>
-    </a>
-
-    <a href="https://github.com/shirshanag/Air-Quality-Forecasting" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-    <div class="project-item reveal">
-      <div class="project-num">05</div>
-      <div class="project-info">
-        <div class="project-name">Air Quality Forecasting System</div>
-        <div class="project-desc">End-to-end forecasting system predicting multiple environmental parameters via time-series modeling — Prophet as baseline, XGBoost for prediction, evaluated with MAE/RMSE, deployed via FastAPI and a Streamlit dashboard.</div>
-      </div>
-      <div class="project-tech">
-        <span class="tech-tag">Prophet</span>
-        <span class="tech-tag">XGBoost</span>
-        <span class="tech-tag">Streamlit</span>
-      </div>
-    </div>
-    </a>
-  
-    <a href="https://github.com/shirshanag/Python-ML-projects/tree/main/folder-Diascan.ai" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;"></a>
-    <div class="project-item reveal">
-      <div class="project-num">06</div>
-      <div class="project-info">
-        <div class="project-name">Diascan.AI — Diabetes Risk Prediction</div>
-        <div class="project-desc">End-to-end ML pipeline for diabetes risk prediction — data preprocessing, feature scaling, model training, evaluation, and predictive analytics on clinical datasets.</div>
-      </div>
-      <div class="project-tech">
-        <span class="tech-tag">scikit-learn</span>
-        <span class="tech-tag">Pandas</span>
-        <span class="tech-tag">NumPy</span>
-      </div>
-    </div>
-</a>
-
-    <a href="https://github.com/shirshanag/AirVolume" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-    <div class="project-item reveal">
-      <div class="project-num">07</div>
-      <div class="project-info">
-        <div class="project-name">Air Volume — Gesture-Based Volume Control</div>
-        <div class="project-desc">Real-time computer vision app using hand landmark detection and gesture recognition to control system volume — touch-free human-computer interaction via live video analytics.</div>
-      </div>
-      <div class="project-tech">
-        <span class="tech-tag">OpenCV</span>
-        <span class="tech-tag">MediaPipe</span>
-        <span class="tech-tag">Pycaw</span>
-      </div>
-    </div>
-    </a>
-
-    <div class="project-item reveal">
-      <div class="project-num">08</div>
-      <div class="project-info">
-        <div class="project-name">Wildlife Image Classification</div>
-        <div class="project-desc">PyTorch-based CNN for multi-class wildlife image classification from camera-trap images. End-to-end pipeline from preprocessing to prediction on unseen data.</div>
-      </div>
-      <div class="project-tech">
-        <span class="tech-tag">PyTorch</span>
-        <span class="tech-tag">CNN</span>
-      </div>
-    </div>
-
-    <div class="project-item reveal">
-      <div class="project-num">09</div>
-      <div class="project-info">
-        <div class="project-name">Credit Card Fraud Detection</div>
-        <div class="project-desc">Fraud detection on highly imbalanced transaction datasets using SMOTE and ensemble methods. Optimized for high recall to minimize false negatives — critical in real-world financial fraud detection pipelines.</div>
-      </div>
-      <div class="project-tech">
-        <span class="tech-tag">scikit-learn</span>
-        <span class="tech-tag">imbalanced-learn</span>
-        <span class="tech-tag">Python</span>
-      </div>
-    </div>
-
-    <a href="https://github.com/shirshanag/Talk-Buddy-" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-    <div class="project-item reveal">
-    <div class="project-num">10</div>
-    <div class="project-info">
-        <div class="project-name">Talk Buddy — AI Q&A Chatbot</div>
-        <div class="project-desc">Conversational AI chatbot built with LangChain, Google Gemini, and Streamlit for interactive question answering with a simple web interface.</div>
-     </div>
-    
-      <div class="project-tech">
-        <span class="tech-tag">Langchain</span>
-        <span class="tech-tag">Google-Gemini</span>
-        <span class="tech-tag">Python</span>
-      </div>
-    </div>
-    </a>
-
-    <div class="project-item reveal">
-      <div class="project-num">11</div>
-      <div class="project-info">
-        <div class="project-name">Pollution Forecasting — Time Series</div>
-        <div class="project-desc">Linear &amp; Auto Regression models on MongoDB-extracted data to predict future pollution trends. Seasonal dependencies demonstrated using ACF and PACF analysis.</div>
-      </div>
-      <div class="project-tech">
-        <span class="tech-tag">MongoDB</span>
-        <span class="tech-tag">Python</span>
-        <span class="tech-tag">Time Series</span>
-      </div>
-    </div>
-
-    <a href="https://github.com/shirshanag/Python-ML-projects/tree/main/SpamShield" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-    <div class="project-item reveal">
-      <div class="project-num">12</div>
-      <div class="project-info">
-        <div class="project-name">Spam Email Detector</div>
-        <div class="project-desc">Text classification pipeline using TF-IDF vectorization with Naive Bayes and SVM classifiers. Full NLP preprocessing: tokenization, stopword removal, and stemming on raw email data.</div>
-      </div>
-      <div class="project-tech">
-        <span class="tech-tag">NLP</span>
-        <span class="tech-tag">scikit-learn</span>
-        <span class="tech-tag">TF-IDF</span>
-      </div>
-    </div>
-</a>
-
-    <div class="project-item reveal">
-      <div class="project-num">13</div>
-      <div class="project-info">
-        <div class="project-name">Gamified Environmental Learning Platform</div>
-        <div class="project-desc">Web-based interactive platform for children aged 9–12 covering water conservation, air quality, and renewable energy through games, quizzes, and animated lessons.</div>
-      </div>
-      <div class="project-tech">
-        <span class="tech-tag">HTML</span>
-        <span class="tech-tag">CSS</span>
-        <span class="tech-tag">JavaScript</span>
-      </div>
-    </div>
-
-    <a href="https://github.com/shirshanag/Netflix-recommendation-ml-model" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-    <div class="project-item reveal">
-      <div class="project-num">14</div>
-      <div class="project-info">
-        <div class="project-name">Movie Recommendation System</div>
-        <div class="project-desc">Content-based filtering using cosine similarity on genre and user preference overlap. Engineered for precision matching across diverse movie metadata.</div>
-      </div>
-      <div class="project-tech">
-        <span class="tech-tag">Python</span>
-        <span class="tech-tag">Cosine Similarity</span>
-      </div>
-    </div>
-    </a>
-
-    <div class="project-item reveal">
-      <div class="project-num">15</div>
-      <div class="project-info">
-        <div class="project-name">Food Ordering Platform (Burger King Clone)</div>
-        <div class="project-desc">Web-based restaurant ordering system replicating the functionality of Burger King, built using the Django framework to demonstrate backend development skills including user authentication, session management, database integration, and order processing.</div>
-      </div>
-      <div class="project-tech">
-        <span class="tech-tag">HTML</span>
-        <span class="tech-tag">CSS</span>
-        <span class="tech-tag">JavaScript</span>
-        <span class="tech-tag">Django</span>
-      </div>
-    </div>
-
-    <a href="https://prefix-s2w5.onrender.com/" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
-    <div class="research-card reveal">
-    <div class="project-item reveal">
-      <div class="project-num">16</div>
-      <div class="project-info">
-        <div class="project-name">Prefix (Ecommerce Platform)</div>
-        <div class="project-desc">Prefix — Built a full-stack eCommerce platform using Django and PostgreSQL that enables users to buy and sell products, manage listings through an admin dashboard, and store images securely using cloud-based services.</div>
-      </div>
-    
-      <div class="project-tech">
-        <span class="tech-tag">HTML</span>
-        <span class="tech-tag">CSS</span>
-        <span class="tech-tag">JavaScript</span>
-        <span class="tech-tag">Django</span>
-        <span class="tech-tag">Postgre</span>
-        <span class="tech-tag">Cloudinary</span>
-      </div>
-    </div>
-    </a>
-
-
-  </div>
-</section>
-
-<!-- Skills -->
-<section id="skills">
-  <div class="skills-inner">
-    <div class="section-label reveal">Technical Skills</div>
-    <div class="skills-grid">
-
-      <div class="skill-group reveal">
-        <div class="skill-group-title">Languages</div>
-        <div class="skill-list">
-          <span class="skill-item">Python</span>
-          <span class="skill-item">C</span>
-          <span class="skill-item">C++</span>
-          <span class="skill-item">Java</span>
-          <span class="skill-item">SQL</span>
-          <span class="skill-item">HTML</span>
-          <span class="skill-item">CSS</span>
-        </div>
-      </div>
-
-      <div class="skill-group reveal">
-        <div class="skill-group-title">ML / Data Science</div>
-        <div class="skill-list">
-          <span class="skill-item">scikit-learn</span>
-          <span class="skill-item">pandas</span>
-          <span class="skill-item">NumPy</span>
-          <span class="skill-item">PyTorch</span>
-          <span class="skill-item">Matplotlib</span>
-          <span class="skill-item">Seaborn</span>
-          <span class="skill-item">SVM</span>
-          <span class="skill-item">CNN</span>
-          <span class="skill-item">kNN</span>
-          <span class="skill-item">Transfer Learning</span>
-          <span class="skill-item">Cross-Validation</span>
-          <span class="skill-item">Feature Engineering</span>
-        </div>
-      </div>
-
-    <div class="skill-group reveal">
-        <div class="skill-group-title">AI & LLM</div>
-        <div class="skill-list">
-        <span class="skill-item">LangChain</span>
-        <span class="skill-item">LangGraph</span>
-        <span class="skill-item">Hugging Face</span>
-        <span class="skill-item">RAG</span>
-        <span class="skill-item">LLMs</span>
-        <span class="skill-item">Prompt Engineering</span>
-        <span class="skill-item">Transformers</span>
-        <span class="skill-item">Groq</span>
-        <span class="skill-item">Ollama</span>
-    </div>
-    </div>
-
-      <div class="skill-group reveal">
-        <div class="skill-group-title">Quantum Computing</div>
-        <div class="skill-list">
-          <span class="skill-item">Qiskit</span>
-          <span class="skill-item">QML</span>
-          <span class="skill-item">Grover's Algorithm</span>
-          <span class="skill-item">VQC</span>
-          <span class="skill-item">Quantum Kernels</span>
-          <span class="skill-item">Fidelity Quantum Kernel</span>
-          <span class="skill-item">ZZFeatureMap</span>
-          <span class="skill-item">Qiskit Runtime</span>
-          <span class="skill-item">IBM Quantum Cloud</span>
-          <span class="skill-item">Superposition</span>
-          <span class="skill-item">Entanglement</span>
-        </div>
-      </div>
-
-      <div class="skill-group reveal">
-        <div class="skill-group-title">Computer Vision</div>
-        <div class="skill-list">
-          <span class="skill-item">OpenCV</span>
-          <span class="skill-item">MediaPipe</span>
-          <span class="skill-item">MTCNN</span>
-          <span class="skill-item">VGGFace2</span>
-          <span class="skill-item">Image Processing</span>
-          <span class="skill-item">Face Detection</span>
-          <span class="skill-item">Face Recognition</span>
-          <span class="skill-item">Gesture Recognition</span>
-          <span class="skill-item">Hand Tracking</span>
-          <span class="skill-item">Feature Extraction</span>
-          <span class="skill-item">Video Analytics</span>
-        </div>
-      </div>
-
-      <div class="skill-group reveal">
-        <div class="skill-group-title">IoT / Embedded</div>
-        <div class="skill-list">
-          <span class="skill-item">ESP32</span>
-          <span class="skill-item">Arduino</span>
-          <span class="skill-item">ThingSpeak</span>
-          <span class="skill-item">Flex Sensors</span>
-          <span class="skill-item">Cloud Integration</span>
-        </div>
-      </div>
-
-      <div class="skill-group reveal">
-        <div class="skill-group-title">Databases &amp; Tools</div>
-        <div class="skill-list">
-          <span class="skill-item">MongoDB</span>
-          <span class="skill-item">SQLite3</span>
-          <span class="skill-item">MySQL</span>
-          <span class="skill-item">PostgreSQL</span>
-          <span class="skill-item">Git</span>
-          <span class="skill-item">GitHub</span>
-          <span class="skill-item">Jupyter</span>
-          <span class="skill-item">Google Colab</span>
-          <span class="skill-item">Render</span>
-        </div>
-      </div>
-
-      <div class="skill-group reveal">
-        <div class="skill-group-title">Backend &amp; Cloud</div>
-        <div class="skill-list">
-          <span class="skill-item">Django</span>
-          <span class="skill-item">FastAPI</span>
-          <span class="skill-item">Flask</span>
-          <span class="skill-item">REST APIs</span>
-          <span class="skill-item">Streamlit</span>
-          <span class="skill-item">Ollama</span>
-          <span class="skill-item">Docker</span>
-          <span class="skill-item">IBM Quantum Cloud</span>
-
-          
-        </div>
-      </div>
-
-      <div class="skill-group reveal">
-        <div class="skill-group-title">Education</div>
-        <div class="skill-list">
-          <span class="skill-item">FIT Kolkata</span>
-          <span class="skill-item">B.Tech CSE</span>
-          <span class="skill-item">IoT &amp; Cybersecurity</span>
-          <span class="skill-item">2023–2027</span>
-          <span class="skill-item">CGPA 7.7</span>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- Awards -->
-<section id="awards">
-  <div class="section-label reveal">Awards &amp; Recognition</div>
-  <div class="awards-grid">
-
-    <div class="award-item reveal">
-      <div class="award-icon">🏆</div>
-      <div class="award-text">
-        <div class="award-title">Smart India Hackathon — Internal Winner</div>
-        <div class="award-sub">SIH 2025 · Future Institute of Technology</div>
-      </div>
-    </div>
-
-    <div class="award-item reveal">
-      <div class="award-icon">⭐</div>
-      <div class="award-text">
-        <div class="award-title">Hacktoberfest Super Contributor</div>
-        <div class="award-sub">Recognized for high-quality open-source contributions · 2025</div>
-      </div>
-    </div>
-
-    <div class="award-item reveal">
-      <div class="award-icon">📋</div>
-      <div class="award-text">
-        <div class="award-title">IEEE Peer Reviewer — GCON'26</div>
-        <div class="award-sub">IIT Guwahati · Undergraduate selected for international conference review</div>
-      </div>
-    </div>
-
-    <div class="award-item reveal">
-      <div class="award-icon">🎓</div>
-      <div class="award-text">
-        <div class="award-title">4× Conference Paper Presenter</div>
-        <div class="award-sub">National (JGEC, Jalpaiguri) · International (IIT ISM Dhanbad, ACSS 2026, IEEE GCON'26)</div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- Certifications -->
-<section id="certifications">
-  <div class="certs-inner">
-    <div class="section-label reveal">Certifications</div>
-    <div class="certs-list">
-      <span class="cert-item reveal">IQM Quantum Summer School — IQM (2026)</span>
-      <span class="cert-item reveal">IBM Quantum Qiskit Global Summer School — IBM (2026)</span>
-      <span class="cert-item reveal">OpenCV Bootcamp (94%) — OpenCV University (2026)</span>
-      <span class="cert-item reveal">Introduction to IoT — NPTEL, IIT Kharagpur</span>
-      <span class="cert-item reveal">Applied Data Science Lab — WorldQuant University</span>
-      <span class="cert-item reveal">Python Essentials 1 — CISCO Networking Academy</span>
-      <span class="cert-item reveal">AI &amp; Quantum Computing Mastery — Udemy</span>
-      <span class="cert-item reveal">Introduction to Data Science — Infosys Springboard</span>
-      <span class="cert-item reveal">Introduction to Artificial Intelligence — Infosys Springboard</span>
-      <span class="cert-item reveal">Introduction to Deep Learning — Infosys Springboard</span>
-      <span class="cert-item reveal">Computer Vision 101 — Infosys Springboard</span>
-
-    </div>
-  </div>
-</section>
-
-<!-- Contact -->
-<section id="contact">
-  <div class="contact-bg-text">Connect</div>
-  <div class="contact-inner">
-    <div class="contact-label reveal">Get In Touch</div>
-    <h2 class="contact-heading reveal">Let's Build<br><em style="font-family:'DM Serif Display',serif; font-style:italic; color:var(--gray);">Something Quantum.</em></h2>
-    <div class="contact-links reveal">
-      <a href="mailto:15shirsha@gmail.com" class="contact-link">15shirsha@gmail.com</a>
-      <a href="https://linkedin.com/in/shirsha-nag-b4aa87219" target="_blank" class="contact-link">LinkedIn</a>
-      <a href="https://github.com/shirshanag" target="_blank" class="contact-link">GitHub</a>
-      <a href="https://researchgate.net/profile/Shirsha-Nag" target="_blank" class="contact-link">ResearchGate</a>
-    </div>
-    <div class="footer-line reveal">
-      © 2025 Shirsha Nag · Kolkata, India · B.Tech CSE (IoT &amp; Cybersecurity) · Future Institute of Technology
-    </div>
-  </div>
-</section>
+<nav><a class="logo" href="#hero"><i>SN</i><span>Shirsha Nag<small>Independent Builder</small></span></a><ul><li><a href="#about">About</a></li><li><a href="#expertise">Expertise</a></li><li><a href="#work">Work</a></li><li><a href="#research">Research</a></li><li><a href="#stack">Stack</a></li><li><a class="navcta" href="#contact">Get in touch</a></li></ul></nav>
+<section id="hero"><div class="wrap"><div class="hgrid"><div>
+<div class="eyebrow">AI · Machine Learning · Full-Stack Products</div>
+<h1>I build intelligent products and <em>ship them to real users.</em></h1>
+<p class="sub">Shirsha Nag is an independent builder, AI/ML engineer and researcher. He designs, trains and deploys LLM apps, ML systems and FastAPI backends end to end, and learns every new technology the day it lands. Off the keyboard: Formula 1.</p>
+<div class="cta"><a class="btn p" href="#work">See my work</a><a class="btn" href="#contact">Get in touch</a></div>
+<div class="chips"><a href="https://task-pilot-gvoz.onrender.com/" target="_blank" rel="noopener">Latest ship: TaskPilot ↗</a><span>IEEE GCON'26 Peer Reviewer</span><span>Founding President, ACM FIT</span><span>18 products shipped</span></div>
+<div class="scroll">Scroll</div></div>
+<figure class="track rv"><svg viewBox="0 0 400 300" aria-label="F1 circuit animation">
+<path id="ci" d="M70 220 C40 180 60 120 110 110 C150 100 150 60 200 50 C260 40 300 70 320 110 C340 150 380 150 370 200 C360 250 300 260 250 240 C210 225 200 260 150 265 C100 268 90 240 70 220Z" fill="none" stroke="rgba(128,128,128,.35)" stroke-width="16" stroke-linejoin="round"/>
+<path d="M70 220 C40 180 60 120 110 110 C150 100 150 60 200 50 C260 40 300 70 320 110 C340 150 380 150 370 200 C360 250 300 260 250 240 C210 225 200 260 150 265 C100 268 90 240 70 220Z" fill="none" stroke="var(--red)" stroke-width="2" stroke-dasharray="6 8"/>
+<circle r="7" fill="var(--red)"><animateMotion dur="6s" repeatCount="indefinite"><mpath href="#ci"/></animateMotion></circle>
+<circle r="7" fill="var(--yel)"><animateMotion dur="6.6s" begin="-1.5s" repeatCount="indefinite"><mpath href="#ci"/></animateMotion></circle>
+<text x="200" y="160" text-anchor="middle" fill="var(--yel)" font-family="JetBrains Mono" font-size="10" letter-spacing="3">SHIPPING · LAP 01</text>
+<text x="200" y="178" text-anchor="middle" fill="var(--fg)" font-family="Instrument Serif" font-size="22">Always Pushing</text></svg><figcaption>Precision at speed: the F1 mindset, applied to code.</figcaption></figure></div></div></section>
+<div class="marq"><div id="mq"></div></div>
+<section id="about"><div class="wrap"><div class="about"><div class="pcard rv"><div class="mono">SN</div><b>Shirsha Nag</b><span>Independent Builder &amp; Researcher</span><span style="display:block;margin-top:6px">Kolkata, India</span></div>
+<div class="rv"><div class="eyebrow">About</div><h2>From notebook to production.</h2>
+<p><b>Shirsha Nag</b> is a B.Tech CSE (IoT &amp; Cybersecurity) student at the Future Institute of Technology, and an independent builder who loves shipping products people can actually use. He turns ML and LLM ideas into working systems, from time-series forecasting deployed with FastAPI and Streamlit to local LLM apps running on Ollama.</p>
+<p>He is an <b>IEEE peer reviewer</b> for GCON'26 at IIT Guwahati, the <b>founding president of FIT's first ACM Student Chapter</b>, and has presented four papers at national and international conferences. Quantum ML is one of his research threads, alongside classical ML and applied AI. Latest ship: <b>TaskPilot</b>.</p>
+<div class="stats"><div><b>18</b><span>Products &amp; projects</span></div><div><b>4×</b><span>Conference presenter</span></div><div><b>100+</b><span>Students reached via ACM</span></div><div><b>10</b><span>Certifications</span></div></div></div></div></div></section>
+<section id="lab" style="padding:70px 0"><div class="wrap">
+<div class="eyebrow">Quantum × AI</div>
+<h2>Where qubits meet neural networks.</h2>
+<p class="lead">Superconducting qubits on one side, deep learning on the other. Hybrid quantum ML lives in the middle, and that is where my research sits.</p>
+<figure class="track rv" style="padding:0;overflow:hidden;background:#050914">
+<svg viewBox="0 0 800 440" role="img" aria-label="Scientists at work around a quantum computer feeding a neural network">
+<defs>
+<linearGradient id="bgL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#050914"/><stop offset="1" stop-color="#14123a"/></linearGradient>
+<linearGradient id="gold" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#b8860b"/><stop offset=".5" stop-color="#f5d76e"/><stop offset="1" stop-color="#b8860b"/></linearGradient>
+<radialGradient id="glow"><stop offset="0" stop-color="#22d3ee" stop-opacity=".9"/><stop offset="1" stop-color="#22d3ee" stop-opacity="0"/></radialGradient>
+<radialGradient id="glowP"><stop offset="0" stop-color="#a78bfa" stop-opacity=".8"/><stop offset="1" stop-color="#a78bfa" stop-opacity="0"/></radialGradient>
+<filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy=".5" stdDeviation=".9" flood-color="#0f172a" flood-opacity=".8"/></filter>
+<style>.ar{fill:none;stroke:currentColor;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}</style>
+<g id="hl"><path d="M-12 -118Q-17 -96 -11 -90L11 -90Q17 -96 12 -118Z" fill="var(--hr)"/></g>
+<g id="bd">
+<rect x="-10" y="-50" width="8" height="46" rx="3" fill="#1e293b"/><rect x="2" y="-50" width="8" height="46" rx="3" fill="#1e293b"/>
+<ellipse cx="-7" cy="-2" rx="8" ry="3.5" fill="#0f172a"/><ellipse cx="7" cy="-2" rx="8" ry="3.5" fill="#0f172a"/>
+<path d="M-17 -94Q-19 -70 -18 -40L18 -40Q19 -70 17 -94Q0 -100 -17 -94Z" fill="currentColor" stroke="#22d3ee" stroke-opacity=".5"/>
+<path d="M-5 -96L0 -76L5 -96Z" fill="#334155"/><path d="M0 -76V-42" stroke="#94a3b8" stroke-opacity=".6"/>
+<rect x="6" y="-80" width="6" height="8" rx="1" fill="#22d3ee" opacity=".8"/>
+<rect x="-4" y="-104" width="8" height="10" fill="var(--sk)"/>
+<ellipse cx="-8" cy="-112" rx="2" ry="3" fill="var(--sk)"/>
+<ellipse cy="-114" rx="11" ry="13" fill="var(--sk)"/>
+<path d="M-12 -116Q-11 -132 0 -131Q12 -132 12 -116Q8 -124 0 -123Q-8 -124 -12 -116Z" fill="var(--hr)"/>
+<g fill="none" stroke="#0f172a" stroke-width="1"><circle cx="3" cy="-114" r="3.4"/><circle cx="9.5" cy="-114" r="3.4"/><path d="M6.4 -114H6"/></g>
+<circle cx="3" cy="-114" r="1.1" fill="#0f172a"/><circle cx="9.5" cy="-114" r="1.1" fill="#0f172a"/>
+</g>
+</defs>
+
+<rect width="800" height="440" fill="url(#bgL)"/>
+<!-- stars -->
+<g fill="#fff" opacity=".6"><circle cx="60" cy="40" r="1"/><circle cx="230" cy="30" r="1.2"/><circle cx="330" cy="70" r="1"/><circle cx="560" cy="35" r="1.2"/><circle cx="700" cy="50" r="1"/><circle cx="770" cy="150" r="1"/><circle cx="25" cy="130" r="1"/></g>
+<!-- floor grid -->
+<rect y="352" width="800" height="88" fill="#0a0f24"/>
+<g stroke="#22d3ee" stroke-opacity=".18"><path d="M0 366H800M0 384H800M0 406H800M0 432H800"/><path d="M400 352L120 440M400 352L260 440M400 352L400 440M400 352L540 440M400 352L680 440M400 352L-60 440M400 352L860 440"/></g>
+<ellipse cx="400" cy="352" rx="200" ry="14" fill="url(#glow)" opacity=".55"/>
+
+<!-- ===== Bloch sphere hologram (left) ===== -->
+<g transform="translate(150 200)">
+<ellipse cy="86" rx="48" ry="9" fill="#22d3ee" opacity=".25"/>
+<path d="M-30 80L-20 62H20L30 80Z" fill="#22d3ee" opacity=".12"/>
+<circle r="58" fill="url(#glow)" opacity=".25"/>
+<circle r="58" fill="none" stroke="#22d3ee" stroke-width="1.5"/>
+<ellipse rx="58" ry="16" fill="none" stroke="#22d3ee" stroke-opacity=".6"/>
+<ellipse rx="22" ry="58" fill="none" stroke="#a78bfa" stroke-opacity=".7"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="9s" repeatCount="indefinite"/></ellipse>
+<path d="M0 -70V70M-70 0H70" stroke="#22d3ee" stroke-opacity=".4" stroke-dasharray="3 4"/>
+<path d="M0 0L34 -40" stroke="#f5d76e" stroke-width="2.5"><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="6s" repeatCount="indefinite"/></path>
+<circle cx="34" cy="-40" r="4.5" fill="#f5d76e"><animateTransform attributeName="transform" type="rotate" from="0 -34 40" to="360 -34 40" dur="6s" repeatCount="indefinite"/></circle>
+<text y="-76" text-anchor="middle" fill="#93c5fd" font-family="Inter,sans-serif" font-size="11">|0⟩</text>
+<text y="-98" text-anchor="middle" fill="#a78bfa" font-family="Inter,sans-serif" font-size="12" letter-spacing="1">|ψ⟩ = α|0⟩ + β|1⟩</text>
+</g>
+
+<!-- ===== Quantum chandelier (center) ===== -->
+<g>
+<rect x="318" y="38" width="164" height="14" rx="4" fill="#94a3b8"/>
+<rect x="312" y="52" width="6" height="282" fill="#64748b"/><rect x="482" y="52" width="6" height="282" fill="#64748b"/>
+<rect x="296" y="332" width="208" height="16" rx="4" fill="#475569"/>
+<g fill="url(#gold)" stroke="#7c5a06"><rect x="340" y="92" width="120" height="10" rx="4"/><rect x="350" y="148" width="100" height="10" rx="4"/><rect x="360" y="204" width="80" height="10" rx="4"/><rect x="370" y="256" width="60" height="10" rx="4"/><rect x="380" y="298" width="40" height="12" rx="5"/></g>
+<g stroke="#d4a017" stroke-width="3"><path d="M360 52V92M440 52V92M370 102V148M430 102V148M380 158V204M420 158V204M390 214V256M410 214V256M395 266V298M405 266V298"/></g>
+<circle cx="400" cy="306" r="50" fill="url(#glow)"><animate attributeName="opacity" values=".5;1;.5" dur="2.2s" repeatCount="indefinite"/></circle>
+<g fill="#22d3ee"><circle cx="392" cy="304" r="3.5"><animate attributeName="r" values="3;5;3" dur="1.6s" repeatCount="indefinite"/></circle><circle cx="408" cy="304" r="3.5"><animate attributeName="r" values="5;3;5" dur="1.6s" repeatCount="indefinite"/></circle></g>
+<path d="M395 304 q3 -8 6 0 t6 0" fill="none" stroke="#fff" stroke-width="1.2"/>
+<text x="400" y="28" text-anchor="middle" fill="#93a0b8" font-family="Inter,sans-serif" font-size="11" letter-spacing="3">10 mK · SUPERCONDUCTING QPU</text>
+</g>
+
+<!-- ===== Data pulses: quantum → AI ===== -->
+<path id="flow" d="M440 100C500 40 560 70 596 118" fill="none" stroke="#a78bfa" stroke-opacity=".5" stroke-dasharray="4 6"/>
+<path id="flow2" d="M440 210C510 190 560 190 596 186" fill="none" stroke="#22d3ee" stroke-opacity=".4" stroke-dasharray="4 6"/>
+<path id="flow3" d="M360 150C300 120 250 140 215 170" fill="none" stroke="#22d3ee" stroke-opacity=".4" stroke-dasharray="4 6"/>
+<g fill="#f5d76e">
+<circle r="4"><animateMotion dur="2.4s" repeatCount="indefinite"><mpath href="#flow"/></animateMotion></circle>
+<circle r="4"><animateMotion dur="2.4s" begin="-1.2s" repeatCount="indefinite"><mpath href="#flow"/></animateMotion></circle>
+<circle r="3.5" fill="#22d3ee"><animateMotion dur="2s" repeatCount="indefinite"><mpath href="#flow2"/></animateMotion></circle>
+<circle r="3.5" fill="#22d3ee"><animateMotion dur="2s" begin="-1s" repeatCount="indefinite"><mpath href="#flow3"/></animateMotion></circle>
+</g>
+
+<!-- ===== Neural network (right) ===== -->
+<g transform="translate(0 6)">
+<rect x="570" y="62" width="200" height="230" rx="12" fill="#a78bfa" opacity=".07" stroke="#a78bfa" stroke-opacity=".45"/>
+<g id="nn" stroke="#a78bfa" stroke-opacity=".35" stroke-width="1"></g>
+<text x="670" y="82" text-anchor="middle" fill="#c4b5fd" font-family="Inter,sans-serif" font-size="11" letter-spacing="2">HYBRID QNN</text>
+<text x="670" y="282" text-anchor="middle" fill="#93c5fd" font-family="Inter,sans-serif" font-size="10">loss ↓ 0.012 · acc 96.4%</text>
+</g>
+
+<!-- circuit strip -->
+<g transform="translate(40 392)" stroke="#22d3ee" stroke-opacity=".5" fill="none"><path d="M0 0H100M0 12H100"/><rect x="18" y="-6" width="12" height="12" fill="#0f172a"/><circle cx="60" cy="0" r="3" fill="#22d3ee"/><path d="M60 0V12"/><circle cx="60" cy="12" r="6"/></g>
+<text x="40" y="386" fill="#67e8f9" font-family="Inter,sans-serif" font-size="9" letter-spacing="2" opacity=".8">H · CNOT · RZ</text>
+
+<!-- ===== Scientists at work ===== -->
+
+<!-- 1 · tablet, left -->
+<g transform="translate(165 414) scale(.85)" style="color:#f1f5f9;--sk:#e8b98f;--hr:#1f2937">
+<ellipse cy="2" rx="22" ry="4" fill="#000" opacity=".35"/>
+<use href="#bd"/>
+<g class="ar" filter="url(#sh)"><path d="M15 -90L34 -72L50 -92"/>
+<g><animateTransform attributeName="transform" type="translate" values="0 0;3 -2;0 0" dur="1.2s" repeatCount="indefinite"/><path d="M-15 -90L-8 -70L38 -84"/><circle cx="38" cy="-84" r="4" fill="var(--sk)" stroke="none"/></g></g>
+<g transform="rotate(-12 54 -100)"><rect x="46" y="-118" width="26" height="34" rx="3" fill="#0b1224" stroke="#22d3ee"/><path d="M51 -108h16M51 -102h10" stroke="#67e8f9"/><rect x="51" y="-96" width="16" height="6" fill="#a78bfa"><animate attributeName="opacity" values=".3;1;.3" dur="1.4s" repeatCount="indefinite"/></rect></g>
+<circle cx="50" cy="-92" r="4" fill="var(--sk)"/>
+</g>
+
+<!-- 2 · laptop cart, typing -->
+<rect x="266" y="376" width="4" height="34" fill="#475569"/><rect x="320" y="376" width="4" height="34" fill="#475569"/>
+<rect x="262" y="372" width="66" height="4" rx="1" fill="#64748b"/><circle cx="268" cy="412" r="3" fill="#0f172a"/><circle cx="322" cy="412" r="3" fill="#0f172a"/>
+<rect x="268" y="368" width="52" height="4" rx="1" fill="#94a3b8"/>
+<rect x="280" y="332" width="40" height="34" rx="2" fill="#0b1224" stroke="#22d3ee"/>
+<g stroke="#4ade80" stroke-width="1.5"><path d="M285 340h20M285 346h28M285 352h14M285 358h22"><animate attributeName="stroke-opacity" values="1;.3;1" dur="1.3s" repeatCount="indefinite"/></path></g>
+<g transform="translate(240 410) scale(.85)" style="color:#bfdbfe;--sk:#c68642;--hr:#111827">
+<ellipse cy="2" rx="22" ry="4" fill="#000" opacity=".35"/>
+<use href="#bd"/>
+<g class="ar" filter="url(#sh)"><animateTransform attributeName="transform" type="translate" values="0 0;0 -2;0 0;0 -1;0 0" dur=".5s" repeatCount="indefinite"/>
+<path d="M15 -90L26 -68L33 -50"/><path d="M-15 -90L-2 -64L28 -48"/>
+<circle cx="33" cy="-50" r="4" fill="var(--sk)" stroke="none"/><circle cx="28" cy="-48" r="4" fill="var(--sk)" stroke="none"/></g>
+</g>
+
+<!-- 3 · technician with probe at the fridge base -->
+<g transform="translate(350 410) scale(.85)" style="color:#f1f5f9;--sk:#e8b98f;--hr:#7c2d12">
+<ellipse cy="2" rx="22" ry="4" fill="#000" opacity=".35"/>
+<use href="#bd"/>
+<rect x="-1" y="-119" width="17" height="8" rx="3.5" fill="#22d3ee" fill-opacity=".35" stroke="#22d3ee"/>
+<g class="ar" filter="url(#sh)"><g><animateTransform attributeName="transform" type="translate" values="0 0;3 1;0 0" dur="1.8s" repeatCount="indefinite"/><path d="M15 -90L38 -84L56 -86"/><circle cx="56" cy="-86" r="4" fill="var(--sk)" stroke="none"/></g>
+<path d="M-15 -90L-24 -70L-8 -58"/><circle cx="-8" cy="-58" r="4" fill="var(--sk)" stroke="none"/></g>
+<rect x="-18" y="-68" width="12" height="16" rx="2" fill="#1e293b" stroke="#f5d76e"/>
+<path d="M60 -88L68 -100" stroke="#f5d76e" stroke-width="2"/>
+<circle cx="69" cy="-101" r="3" fill="#fde68a"><animate attributeName="r" values="1;5;1" dur=".7s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;.2;1" dur=".7s" repeatCount="indefinite"/></circle>
+</g>
+
+<!-- 4 · clipboard, facing the QPU -->
+<g transform="translate(485 412) scale(-.85 .85)" style="color:#f1f5f9;--sk:#e8b98f;--hr:#1f2937">
+<ellipse cy="2" rx="22" ry="4" fill="#000" opacity=".35"/>
+<use href="#bd"/>
+<g class="ar" filter="url(#sh)"><path d="M15 -90L30 -70L22 -62"/>
+<g><animateTransform attributeName="transform" type="translate" values="0 0;2 -1;0 1;0 0" dur=".9s" repeatCount="indefinite"/><path d="M-15 -90L0 -68L26 -72"/><circle cx="26" cy="-72" r="4" fill="var(--sk)" stroke="none"/><path d="M28 -70L31 -64" stroke="#f5d76e" stroke-width="1.6"/></g></g>
+<rect x="16" y="-88" width="20" height="26" rx="2" fill="#e2e8f0" stroke="#475569"/><path d="M20 -80h12M20 -74h12M20 -68h8" stroke="#64748b"/>
+</g>
+
+<!-- 5 · pointing at the neural network -->
+<g transform="translate(625 414) scale(.85)" style="color:#ddd6fe;--sk:#b9805a;--hr:#111827">
+<ellipse cy="2" rx="22" ry="4" fill="#000" opacity=".35"/>
+<use href="#hl"/><use href="#bd"/>
+<g class="ar" filter="url(#sh)"><g><animateTransform attributeName="transform" type="translate" values="0 0;0 -3;0 0" dur="1.6s" repeatCount="indefinite"/><path d="M15 -90L36 -112L54 -134"/><circle cx="54" cy="-134" r="4" fill="var(--sk)" stroke="none"/></g>
+<path d="M-15 -90L-18 -70L2 -68"/><circle cx="2" cy="-68" r="4" fill="var(--sk)" stroke="none"/></g>
+<rect x="-8" y="-92" width="22" height="26" rx="3" fill="#0b1224" stroke="#a78bfa"/><path d="M-4 -82h14M-4 -76h9" stroke="#c4b5fd"/>
+</g>
+
+<!-- 6 · console desk -->
+<rect x="741" y="375" width="52" height="40" fill="#1e293b" stroke="#334155"/>
+<rect x="738" y="370" width="58" height="5" rx="1" fill="#475569"/>
+<rect x="765" y="362" width="6" height="8" fill="#64748b"/>
+<rect x="746" y="330" width="44" height="32" rx="3" fill="#0b1224" stroke="#22d3ee"/>
+<path d="M750 352l6-10 6 14 6-16 6 12 6-8 8 6" fill="none" stroke="#22d3ee" stroke-width="2" stroke-dasharray="120"><animate attributeName="stroke-dashoffset" values="240;0" dur="2.4s" repeatCount="indefinite"/></path>
+<rect x="738" y="367" width="24" height="3" fill="#64748b"/>
+<g transform="translate(712 414) scale(.85)" style="color:#f1f5f9;--sk:#f0c9a0;--hr:#78350f">
+<ellipse cy="2" rx="22" ry="4" fill="#000" opacity=".35"/>
+<use href="#bd"/>
+<g class="ar" filter="url(#sh)"><animateTransform attributeName="transform" type="translate" values="0 0;0 -1.5;0 0" dur=".45s" repeatCount="indefinite"/><path d="M15 -90L28 -68L36 -52"/><circle cx="36" cy="-52" r="4" fill="var(--sk)" stroke="none"/></g>
+</g>
+</svg>
+<figcaption>Quantum hardware feeding hybrid AI models: the research frontier I build in.</figcaption></figure>
 
 <script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  document.addEventListener('mousemove', e => {
-    cursor.style.left = e.clientX + 'px';
-    cursor.style.top = e.clientY + 'px';
-    setTimeout(() => {
-      ring.style.left = e.clientX + 'px';
-      ring.style.top = e.clientY + 'px';
-    }, 80);
-  });
-  document.querySelectorAll('a, button, .exp-card, .project-item, .skill-item').forEach(el => {
-    el.addEventListener('mouseenter', () => ring.classList.add('expand'));
-    el.addEventListener('mouseleave', () => ring.classList.remove('expand'));
-  });
-
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-      if (entry.isIntersecting) {
-        setTimeout(() => entry.target.classList.add('visible'), i * 60);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
-  reveals.forEach(el => observer.observe(el));
-
-  // Nav active state on scroll
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-links a');
-  window.addEventListener('scroll', () => {
-    let current = '';
-    sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 120) current = s.id;
-    });
-    navLinks.forEach(a => {
-      a.style.color = a.getAttribute('href') === '#' + current ? '#f5f5f0' : '';
-    });
-  });
-
-  // Subtle parallax on hero visual
-  window.addEventListener('scroll', () => {
-    const y = window.scrollY;
-    const vis = document.querySelector('.quantum-grid');
-    if (vis) vis.style.transform = `translateY(${y * 0.15}px)`;
-  });
+(function(){var L=[[600,[110,150,190,230]],[670,[90,130,170,210,250]],[740,[130,170,210]]],g=document.getElementById('nn'),h='',n='';
+for(var i=0;i<2;i++)L[i][1].forEach(function(a){L[i+1][1].forEach(function(b){h+='<line x1="'+L[i][0]+'" y1="'+a+'" x2="'+L[i+1][0]+'" y2="'+b+'"/>'})});
+var k=0;L.forEach(function(l){l[1].forEach(function(y){n+='<circle cx="'+l[0]+'" cy="'+y+'" r="6" fill="#c4b5fd" stroke="none"><animate attributeName="opacity" values=".4;1;.4" dur="'+(1.4+(k%4)*.3)+'s" begin="-'+(k*.2)+'s" repeatCount="indefinite"/></circle>';k++})});
+g.innerHTML=h+n})();
 </script>
+</div></section>
+<section id="expertise" style="background:var(--bg2)"><div class="wrap"><div class="eyebrow">What I do</div><h2>AI and products, end to end.</h2><p class="lead">From model to API to a live app, everything a product needs to reach users.</p><div class="grid">
+<div class="xp rv"><i>01</i><h3>AI &amp; ML Systems</h3><p>Forecasting, classification and recommendation pipelines with scikit-learn, XGBoost, Prophet and PyTorch.</p></div>
+<div class="xp rv"><i>02</i><h3>LLM &amp; Local AI Apps</h3><p>Assistants, summarizers and chatbots using Ollama, Mistral, LangChain, Gemini and RAG workflows.</p></div>
+<div class="xp rv"><i>03</i><h3>FastAPI Backends</h3><p>REST APIs, inference services and dashboards, deployed live with Streamlit, Docker and Render.</p></div>
+<div class="xp rv"><i>04</i><h3>Computer Vision</h3><p>Real-time gesture and image systems with OpenCV, MediaPipe and CNNs.</p></div>
+<div class="xp rv"><i>05</i><h3>Research &amp; Review</h3><p>Published and presented work in classical and hybrid quantum ML; IEEE peer reviewer.</p></div>
+<div class="xp rv"><i>06</i><h3>IoT &amp; Embedded</h3><p>ESP32 firmware, ThingSpeak cloud monitoring and sensor-driven robotics.</p></div></div></div></section>
+<section id="work"><div class="wrap"><div class="eyebrow">Selected work</div><h2>Products I've built &amp; deployed.</h2><p class="lead">Live apps, AI tools and ML systems, newest and most impactful first.</p><div class="grid" id="pj"></div></div></section>
+<section id="research" style="background:var(--bg2)"><div class="wrap"><div class="eyebrow">Research</div><h2>Papers &amp; publications.</h2><div class="grid" id="rs"></div></div></section>
+<section id="path"><div class="wrap"><div class="eyebrow">Experience</div><h2>Experience &amp; leadership.</h2><div class="tl" id="ex"></div></div></section>
+<section id="stack" style="background:var(--bg2)"><div class="wrap"><div class="eyebrow">Toolkit</div><h2>Technical skills.</h2><div class="sk" id="sk"></div></div></section>
+<section><div class="wrap"><div class="eyebrow">Recognition</div><h2>Awards &amp; certifications.</h2><div class="grid" id="aw" style="margin-bottom:24px"></div><div class="tags" id="ce"></div></div></section>
+<section id="contact"><div class="wrap"><div class="cta2 rv"><h2>Have something to build?</h2><p>Tell me what you're working on. I love turning ideas into shipped products.</p><div class="cl"><a href="mailto:15shirsha@gmail.com">15shirsha@gmail.com</a><a href="https://linkedin.com/in/shirsha-nag-b4aa87219" target="_blank" rel="noopener">LinkedIn</a><a href="https://github.com/shirshanag" target="_blank" rel="noopener">GitHub</a><a href="https://researchgate.net/profile/Shirsha-Nag" target="_blank" rel="noopener">ResearchGate</a></div></div></div></section>
+<footer>© 2026 Shirsha Nag · Kolkata, India · B.Tech CSE (IoT &amp; Cybersecurity), Future Institute of Technology</footer>
+<script>
+const G='https://github.com/shirshanag/';
+const P=[
+['TaskPilot','Task-management product built and deployed live for real users. Open the live app to try it.',['Live App','Product','Render'],'https://task-pilot-gvoz.onrender.com/',1],
+['InsightIQ','Insight-driven product built and shipped as an independent project. Explore the code and build on GitHub.',['GitHub','Product'],G+'InsightIQ',1],
+['MistralMind — Local AI Assistant','Locally hosted assistant powered by Mistral via Ollama, with a FastAPI backend and HTML/CSS frontend. API endpoints and real-time prompt processing for an end-to-end generative AI app.',['FastAPI','Ollama','Mistral'],G+'MistralMind'],
+['Brief-Mind — AI Text Summarization','Summarization app using FastAPI and a locally hosted Mistral LLM through Ollama. End-to-end inference pipeline, no external cloud APIs.',['FastAPI','Ollama','JavaScript'],G+'Brief-Mind'],
+['Air Quality Forecasting System','Predicts multiple environmental parameters via time-series modeling — Prophet baseline, XGBoost prediction, MAE/RMSE evaluation, deployed via FastAPI and a Streamlit dashboard.',['Prophet','XGBoost','Streamlit'],G+'Air-Quality-Forecasting'],
+['Talk Buddy — AI Q&A Chatbot','Conversational AI chatbot built with LangChain, Google Gemini and Streamlit for interactive question answering.',['LangChain','Gemini','Python'],G+'Talk-Buddy-'],
+['Air Volume — Gesture Volume Control','Real-time computer vision app using hand landmark detection and gesture recognition to control system volume — touch-free HCI via live video analytics.',['OpenCV','MediaPipe','Pycaw'],G+'AirVolume'],
+['Diascan.AI — Diabetes Risk Prediction','End-to-end ML pipeline: preprocessing, feature scaling, model training, evaluation and predictive analytics on clinical datasets.',['scikit-learn','Pandas','NumPy'],G+'Python-ML-projects/tree/main/folder-Diascan.ai'],
+['QML Classifier — Quantum vs Classical SVM','Qiskit classifier achieving 15% higher accuracy than traditional SVM on synthetic datasets. Implemented Grover\'s algorithm demonstrating quadratic speed-up for unstructured search.',['Qiskit','Python','QML'],''],
+['Hybrid Quantum Clustering — Medical Phenotype Classification','Hybrid quantum clustering pipeline using Qiskit, quantum kernels and dimensionality reduction for medical (PCOS) phenotype classification.',['Qiskit','QML','scikit-learn'],''],
+['Food Ordering Platform (Burger King Clone)','Django restaurant ordering system with user authentication, session management, database integration and order processing.',['Django','HTML','CSS','JS'],''],
+['Wildlife Image Classification','PyTorch CNN for multi-class wildlife classification from camera-trap images, from preprocessing to prediction on unseen data.',['PyTorch','CNN'],''],
+['Credit Card Fraud Detection','Fraud detection on highly imbalanced data using SMOTE and ensembles, optimized for high recall to minimize false negatives.',['scikit-learn','imbalanced-learn'],''],
+['Spam Email Detector','TF-IDF with Naive Bayes and SVM. Full NLP preprocessing: tokenization, stopword removal, stemming.',['NLP','TF-IDF','SVM'],G+'Python-ML-projects/tree/main/SpamShield'],
+['Movie Recommendation System','Content-based filtering using cosine similarity on genre and user preference overlap across diverse movie metadata.',['Python','Cosine Similarity'],G+'Netflix-recommendation-ml-model'],
+['Pollution Forecasting — Time Series','Linear &amp; Auto Regression on MongoDB-extracted data to predict pollution trends; seasonality shown via ACF and PACF.',['MongoDB','Time Series'],''],
+['Gamified Environmental Learning Platform','Interactive platform for children aged 9–12 on water conservation, air quality and renewable energy via games, quizzes and animated lessons.',['HTML','CSS','JavaScript'],''],
+['Prefix — Ecommerce Platform','Full-stack eCommerce platform using Django and PostgreSQL: users buy and sell products, manage listings through an admin dashboard, images stored securely in the cloud.',['Django','PostgreSQL','Cloudinary','JavaScript'],'https://prefix-s2w5.onrender.com/']];
+const R=[
+['ACSS 2026 · CUCSE International Conference · Calcutta University','Hybrid Quantum Clustering for PCOS Phenotype Classification','Co-authored and presented a hybrid quantum clustering pipeline for medical phenotype classification, accepted in the Proceedings of the International Conference on Advances in Computer Science and Systems.',''],
+['IEEE GCON \'26 · IIT Guwahati','Comparative Analysis of Three Hybrid Quantum ML Models on SONAR Data','Co-authored a comparative study benchmarking three hybrid quantum machine learning models on SONAR data, presented at IIT Guwahati.','https://ieeexplore.ieee.org/document/11648339'],
+['NCRTST · JGEC 2025 · National Conference','Quantum Computing and Molecular Stability in Drug Discovery','Simulated molecular energy profiles using quantum and classical regression in Qiskit, identifying molecular stability with higher precision.','https://www.researchgate.net/publication/394727276_Quantum_Computing_and_Molecular_Stability_A_new_Frontier_in_Drug_Discovery'],
+['ICDTBESDVB 2025 · IIT (ISM) Dhanbad · International','House Price Prediction: Classical vs Quantum ML Approaches','Comparative study of classical and quantum ML on Boston housing prices, presented under the Viksit Bharat@2047 initiative.','']];
+const E=[
+
+['2026 – Present','GCI World · Matsuo-Iwasawa Lab, The University of Tokyo','Data Science & AI Scholar · Remote',['Selected for a research-oriented apprenticeship focused on data science and artificial intelligence','Working through applied AI/ML research tasks and technical assignments under the Matsuo-Iwasawa Lab','Developing practical understanding of data science workflows, machine learning and research methodology']],
+['2026','1M1B','AI Intern',['End-to-end air quality forecasting ML system — preprocessing, time-series modeling, evaluation, deployment','Python, Prophet, XGBoost, FastAPI, Streamlit; evaluated with MAE and RMSE']],
+['2026','IQM Quantum Computing','Summer School 2026 · Remote',['Hands-on experience in quantum algorithms, circuit design and superconducting quantum hardware','Python and IQM Pulse for quantum circuit implementation and execution']],
+['2026','IBM Quantum','Qiskit Global Summer School Scholar · Remote',['Completed IBM\'s flagship program covering algorithms, QML workflows and hardware-aware circuit optimization','Implemented GHZ state preparation, variational workflows and quantum feature mapping on IBM Quantum Cloud','Reduced circuit depth and adapted circuits to realistic qubit connectivity']],
+['2025 – Present','QFellows','Quantum Computing Fellowship · Member &amp; Contributor',['Selected as undergraduate in a doctorate-level fellowship, collaborating with PhD researchers globally','Proposed GitHub repo infrastructure for collaborative quantum research','Contributing to QML research discussions and community initiatives']],
+['2025 – 2026','IEEE · GCON\'26 · IIT Guwahati','Peer Reviewer',['Invited peer reviewer for the GCON\'26 international conference','One of very few undergraduates in an official IEEE reviewer capacity at an IIT-hosted conference','Evaluating papers for technical rigor and novelty']],
+['2024 – Present','ACM Chapter · FIT','Founding President',['Founded FIT\'s first ACM Student Chapter with official ACM International recognition','Recruited a core team from scratch; workshops, hackathons and tech talks for 100+ students','Represented the college at ACM\'s global level']],
+['2025','GSSoC \'25 &amp; Hacktoberfest','Open Source Contributor · Super Contributor',['Contributed to an IoT/Robotics playground codebase — multi-contributor embedded repo','ESP32 firmware with ThingSpeak cloud for real-time IoT monitoring','Robotic arm control using flex sensors with gesture-based actuation']]
+];
+const S={'Languages':'Python|C|C++|Java|SQL|HTML|CSS','ML / Data Science':'scikit-learn|pandas|NumPy|PyTorch|Matplotlib|Seaborn|SVM|CNN|kNN|Transfer Learning|Cross-Validation|Feature Engineering','AI & LLM':'LangChain|LangGraph|Hugging Face|RAG|LLMs|Prompt Engineering|Transformers|Groq|Ollama','Computer Vision':'OpenCV|MediaPipe|MTCNN|VGGFace2|Image Processing|Face Detection|Face Recognition|Gesture Recognition|Hand Tracking|Feature Extraction|Video Analytics','Quantum Computing':'Qiskit|QML|Grover\'s Algorithm|VQC|Quantum Kernels|Fidelity Quantum Kernel|ZZFeatureMap|Qiskit Runtime|IBM Quantum Cloud|Superposition|Entanglement','IoT / Embedded':'ESP32|Arduino|ThingSpeak|Flex Sensors|Cloud Integration','Databases & Tools':'MongoDB|SQLite3|MySQL|PostgreSQL|Git|GitHub|Jupyter|Google Colab|Render','Backend & Cloud':'FastAPI|REST APIs|Ollama|Streamlit|Flask|Django|Docker|IBM Quantum Cloud','Education':'FIT Kolkata|B.Tech CSE|IoT & Cybersecurity|2023–2027|CGPA 7.7'};
+const A=[['🏆','Smart India Hackathon — Internal Winner','SIH 2025 · Future Institute of Technology'],['⭐','Hacktoberfest Super Contributor','High-quality open-source contributions · 2025'],['📋','IEEE Peer Reviewer — GCON\'26','IIT Guwahati · Undergraduate selected for international review'],['🎓','4× Conference Paper Presenter','JGEC · IIT ISM Dhanbad · ACSS 2026 · IEEE GCON\'26']];
+const C='IQM Quantum Summer School — IQM (2026)|IBM Quantum Qiskit Global Summer School — IBM (2026)|OpenCV Bootcamp (94%) — OpenCV University (2026)|Introduction to IoT — NPTEL, IIT Kharagpur|Python Essentials 1 — CISCO Networking Academy|AI & Quantum Computing Mastery — Udemy|Introduction to Data Science — Infosys Springboard|Introduction to Artificial Intelligence — Infosys Springboard|Introduction to Deep Learning — Infosys Springboard|Computer Vision 101 — Infosys Springboard'.split('|');
+const $=i=>document.getElementById(i),tg=a=>'<div class="tags">'+a.map(t=>`<span>${t}</span>`).join('')+'</div>';
+const card=(h,c,l,x)=>l?`<a class="card rv ${x||''}" href="${l}" target="_blank" rel="noopener">${c}<span class="go">Open ↗</span></a>`:`<div class="card rv ${x||''}">${c}</div>`;
+$('pj').innerHTML=P.map((p,i)=>card(0,`<span class="n">${String(i+1).padStart(2,'0')}</span><h3>${p[0]}</h3><p>${p[1]}</p>${tg(p[2])}`,p[3],p[4]?'feat':'')).join('');
+$('rs').innerHTML=R.map(r=>card(0,`<span class="n">${r[0]}</span><h3>${r[1]}</h3><p>${r[2]}</p>${tg(['Co-Author','Presenter'])}`,r[3])).join('');
+$('ex').innerHTML=E.map(e=>`<div class="it rv"><div class="y">${e[0]}</div><h3>${e[1]}</h3><div class="r">${e[2]}</div><ul>${e[3].map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('');
+$('sk').innerHTML=Object.entries(S).map(([k,v])=>`<div class="rv"><h4>${k}</h4>${tg(v.split('|'))}</div>`).join('');
+$('aw').innerHTML=A.map(a=>card(0,`<h3>${a[0]} ${a[1]}</h3><p>${a[2]}</p>`,'')).join('');
+$('ce').innerHTML=C.map(c=>`<span>${c}</span>`).join('');
+$('mq').innerHTML=('Machine Learning · Deep Learning · LLMs · RAG · Computer Vision · FastAPI · REST APIs · Ollama · Django · Qiskit · IoT · ESP32 · Building in public · Formula 1 · Always Shipping · '.repeat(4));
+</script>
+<script>
+var ob=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('v');ob.unobserve(e.target)}})},{threshold:.08});
+document.querySelectorAll('.rv').forEach(function(el){ob.observe(el)});
+</script>
+<button class="sound" id="snd" aria-pressed="false">🎵 Play beat</button>
+<script>
+(function(){var b=document.getElementById('snd'),ac,m,lp,on=false,step=0,next=0,tm,bpm=132,sp=60/bpm/4;
+var roots=[55,55,65.41,49],lead=[440,523.25,659.25,523.25,392,523.25,587.33,493.88];
+function nz(t,d,fq,vol,sweep){var n=Math.ceil(ac.sampleRate*d),buf=ac.createBuffer(1,n,ac.sampleRate),a=buf.getChannelData(0);for(var i=0;i<n;i++)a[i]=Math.random()*2-1;var s=ac.createBufferSource();s.buffer=buf;var f=ac.createBiquadFilter();f.type='highpass';f.frequency.setValueAtTime(fq,t);if(sweep)f.frequency.exponentialRampToValueAtTime(sweep,t+d);var g=ac.createGain();if(sweep){g.gain.setValueAtTime(.001,t);g.gain.exponentialRampToValueAtTime(vol,t+d)}else{g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+d)}s.connect(f);f.connect(g);g.connect(m);s.start(t)}
+function tn(t,fr,d,type,vol,end){var o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.setValueAtTime(fr,t);if(end)o.frequency.exponentialRampToValueAtTime(end,t+d);g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(m);o.start(t);o.stop(t+d)}
+function play(k,t){var s=k%16,bar=Math.floor(k/16)%8,ph=k%128;
+lp.frequency.setValueAtTime(700+ph*32,t);
+if(ph==0){tn(t,110,1.4,'sine',.9,28);nz(t,1.2,300,.35)}
+if(s%4==0||(s==14&&bar%2==1))tn(t,160,.28,'sine',.95,42);
+if(s==4||s==12||(bar==7&&s>=8&&s%2==0)){nz(t,.2,1400,.42);tn(t,200,.1,'triangle',.25,130)}
+if(s%4==2)nz(t,.09,8000,.16);else if(s%2==1)nz(t,.03,9000,.07);
+if(s%2==0){var r=roots[bar%4];tn(t,r,sp*1.7,'sawtooth',.32);tn(t,r*2,sp*1.7,'square',.06)}
+if(ph>=64&&[0,3,6,10,12,14].indexOf(s)>-1){var f=lead[(s+bar)%8];tn(t,f,sp*1.5,'sawtooth',.06);tn(t,f*1.006,sp*1.5,'square',.035)}
+if(ph==112)nz(t,sp*16,400,.5,9000)}
+function sched(){while(next<ac.currentTime+.15){play(step,next);next+=sp;step++}}
+b.onclick=function(){if(!ac){ac=new (window.AudioContext||window.webkitAudioContext)();lp=ac.createBiquadFilter();lp.type='lowpass';lp.Q.value=4;lp.frequency.value=900;var c=ac.createDynamicsCompressor();m=ac.createGain();m.gain.value=.6;m.connect(lp);lp.connect(c);c.connect(ac.destination)}
+on=!on;b.setAttribute('aria-pressed',on);b.classList.toggle('on',on);b.textContent=on?'⏸ Pause beat':'🎵 Play beat';
+if(on){ac.resume();next=ac.currentTime+.05;tm=setInterval(sched,40)}else{clearInterval(tm)}}})();
+</script>
+<script>document.addEventListener("mousemove",function(e){var c=e.target.closest&&e.target.closest(".card");if(c){var r=c.getBoundingClientRect();c.style.setProperty("--x",e.clientX-r.left+"px");c.style.setProperty("--y",e.clientY-r.top+"px")}});</script>
 </body>
 </html>
